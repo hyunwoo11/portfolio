@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">이현우</title>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="51">
+	<div class="wrapper">
+		<!-- 공통 Menu -->
+		<th:block th:replace="~{layout/leeMenu :: leeMenu}"></th:block>
+		
+		<!-- 공통 Content -->
+		<th:block layout:fragment="pageContent"></th:block>
+		
+		<!-- 공통 Footer -->
+		<footer th:replace="~{layout/leeFooter :: leeFooter}"></footer>
+	</div>
+	
+	<!-- script 관련 -->
+	<th:block layout:fragment="pageScript"></th:block>
+	
+	<!-- index script 관련 -->
+	<th:block layout:fragment="indexScript"></th:block>
+	
+	<!-- css 관련 해더 -->
+	<th:block th:replace="~{layout/leeHeader}"></th:block>
+</body>
+</html>
