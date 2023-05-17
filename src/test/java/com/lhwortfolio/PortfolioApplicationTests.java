@@ -1,4 +1,4 @@
-package com.jyjportfolio;
+package com.lhwortfolio;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

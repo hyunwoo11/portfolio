@@ -7,9 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,65 +23,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lhwortfolio.service.LifeService;
 
 @Controller
 public class FileDownload {
 
-	private String fileDownloadPath = "C:\\lee_hyunwoo\\workspace\\portfolio\\src\\main\\resources\\static\\assets\\file\\";
+	private String fileDownloadPath = "/var/lib/tomcat9/webapps/file/";
+	
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
-
-	@Autowired
-	private LifeService lifeService;
-
-	// 취미생활
-	@SuppressWarnings("unchecked")
-	@GetMapping("/getLife")
-	@ResponseBody // Ajax 요청에 대한 응답을 JSON 형태로 반환
-	public Object getLife(@RequestParam Map<String, Object> params, Model model) {
-
-		String lifeFileDownloadPath = "C:\\lee_hyunwoo\\workspace\\portfolio\\src\\main\\resources\\static\\assets\\img\\";
-		
-		Map<String, Object> resultMap = new HashMap<>();
-
-		if (params.equals(params.get("type"))) {
-			resultMap.put("success", false);
-			resultMap.put("message", "Invalid parameter.");
-			return resultMap;
-		}
-		
-		String type = (String) params.get("type");
-		
-		try {
-			// 전체
-			if (params.get("type").equals("all")) {
-				lifeFileDownloadPath = lifeFileDownloadPath + "all";
-			}
-			// 자전거
-			else if (params.get("type").equals("bicycle")) {
-				lifeFileDownloadPath = lifeFileDownloadPath + "bicycle";
-			}
-			// 여행
-			else if (params.get("type").equals("travel")) {
-				lifeFileDownloadPath = lifeFileDownloadPath + "travel";
-			}
-			// 물생활
-			else {
-				lifeFileDownloadPath = lifeFileDownloadPath + "fishbowl";
-			}
-			List<String> imgList = (List<String>) lifeService.getLife(lifeFileDownloadPath , type);
-			resultMap.put("success", true);
-			resultMap.put("imgList", imgList);
-			resultMap.put("type", type);
-		} catch (Exception e) {
-			logger.error("Error occurred while fetching posts from Tistory.", e);
-			resultMap.put("success", false);
-			resultMap.put("message", "An error occurred while fetching data.");
-		}
-		return resultMap;
-	}
 
 	@RequestMapping(value = "/getCareerFiledown", method = RequestMethod.GET)
 	public void getCareerFiledown(@RequestParam String careerFileNm, HttpServletRequest request,
@@ -148,33 +96,4 @@ public class FileDownload {
 		}
 		return encodedFileName;
 	}
-
-	@GetMapping("/getTest/")
-	public String getMembers(Model model) throws Exception {
-//		<ul id="hiList">
-//	    <li>
-//	    </li>
-//	    <!-- viewmore 클릭시 목록 뿌려주는 부분 -->
-//	    <th:block th:if="${memberList != null}" >
-//	        <li id="moreList" th:fragment="moreList">
-//	        </li>
-//	    </th:block>
-//	</ul>
-//	<!-- 파일 목록 -->
-//	<!-- viewmore -->
-//	<div class="btnWrap">
-//	    <a href="javascript:void(0);" class="btn more" id="hi">View more</a>
-//	</div>
-		Map<Integer, String> memberList = new HashMap<>(); // <번호, 이름>으로 구성된 가상의 멤버 리스트
-		memberList.put(1, "가");
-		memberList.put(10, "나");
-		memberList.put(20, "다");
-		memberList.put(200, "라");
-
-		model.addAttribute("memberList", memberList);
-
-		return "introduce/index :: #testId"; // template html 파일 이름 + '::' + fragment의 id
-
-	}
-
 }

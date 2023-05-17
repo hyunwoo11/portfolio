@@ -1,6 +1,14 @@
 /**********************************/
 /********** General CSS ***********/
 /**********************************/
+@import
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;700&display=swap')
+	;
+
+* {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
 body {
 	color: #666666;
 	background: #666666;
@@ -278,12 +286,16 @@ transform
 
 
 
+
+
 :
 
 
 
 
+
  
+
 
 
 
@@ -297,8 +309,12 @@ translateY
 
 
 
+
+
 (-15
 px
+
+
 
 
 
@@ -324,12 +340,16 @@ transform
 
 
 
+
+
 :
 
 
 
 
+
  
+
 
 
 
@@ -343,8 +363,12 @@ translateY
 
 
 
+
+
 (-15
 px
+
+
 
 
 
@@ -595,7 +619,7 @@ px
 	border-radius: 5px;
 }
 
-.education .edu-col span i {
+h3 i {
 	color: #FF6F61;
 }
 
@@ -903,7 +927,7 @@ px
 
 .review .review-text p {
 	font-size: 18px;
-	font-style: italic;
+	/**font-style: italic;**/
 }
 
 .review .review-img {
@@ -1137,6 +1161,10 @@ px
 
 .footer a:hover {
 	color: #222222;
+}
+
+.pt-30 {
+    padding-top: 30px;
 }
 
 /**********************************/

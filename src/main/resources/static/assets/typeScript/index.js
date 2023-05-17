@@ -1,6 +1,4 @@
 $(document).ready(() => {
-	// 개인생활 이미지 파일
-	personalLife("all");
 });
 
 // 경력기술서 다운로드 메소드
@@ -29,6 +27,37 @@ const lhwCareerFileDownlod = (id) =>{
   });
 }
 
+// email send
+function sendEmail() {
+	
+	var form = $("#contactForm").serialize();
+	
+	$.ajax({
+		url: "/sendMail",
+		data: form,
+		type:"POST",
+	}).done(function (fragment) {
+	
+		if(fragment){
+			$("#contactForm").find("[name=email]").val('');
+			$("#contactForm").find("[name=message]").val('');
+			
+			$("#btn_sendEmail").find('span').text('완료');
+			$("#btn_sendEmail").removeClass('three');
+			$("#btn_sendEmail").addClass('banner-btn');
+			
+			setTimeout(() => {
+				$("#btn_sendEmail").find('span').text('');
+				$("#btn_sendEmail").removeClass('banner-btn');
+				$("#btn_sendEmail").addClass('three');
+			}, 5000);
+		}
+	});
+	return false;
+}
+
+
+/*
 const personalLife = (type) => {
 	
 	if(type == "" || type == null) return;
@@ -77,8 +106,5 @@ const personalLife = (type) => {
 			alert(result.message);
 		}
 	});
-}
-
-
-
+}*/
 
