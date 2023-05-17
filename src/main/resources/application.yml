@@ -1,31 +1,5 @@
 server:
   port: 80
 
-spring:
-  devtools:
-    livereload:
-      enabled: true
-  mail:
-    host: smtp.naver.com
-    port: 465
-    username: dldjsl2@naver.com
-    password: wdsawdaq2211@@
-    protocol: smtps
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.enable: true
-      mail.smtp.trust: smtp.naver.com
-  thymeleaf:
-    cache: false
-    servlet:
-      content-type: text/html
-    mode: HTML
-    encoding: UTF-8
 
-tistory:
-  client_id: 9cf89a1dc550a5e9c37eadfd7dd2f114
-  client_secret: 9cf89a1dc550a5e9c37eadfd7dd2f114d5122985fc9d3efcd73166a1adf85f9dda376e6c
-  code: bbd850971ee8dce31f2d62e5f6b250ecd37d3c0771092c74d095f2ef7819736d5d6cacb4
-  access_token: 5088f83cf1bce682d1d7d255ccbbcf20_59c8b200490dfde9b2855236569035c1
-  blog_name: yeonhyeon
   
