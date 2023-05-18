@@ -44,7 +44,6 @@ public class LifeServiceImpl implements LifeService {
 		logger.info("===================" + lifeFileDownloadPath + "==================");
 
 		for (String path : paths) {
-			String classType = getClassType(path);
 			String realPath = lifeFileDownloadPath + path + "/";
 			File directory = new File(realPath);
 
@@ -53,7 +52,7 @@ public class LifeServiceImpl implements LifeService {
 				String[] filenames = directory.list();
 				for (int i = 0; i < filenames.length; i++) {
 					String filename = filenames[i];
-					Map<String, Object> resultMap = createResultMap(path, filename, classType);
+					Map<String, Object> resultMap = createResultMap(path, filename);
 					resultList.add(resultMap);
 				}
 			}else {
@@ -63,24 +62,9 @@ public class LifeServiceImpl implements LifeService {
 		return resultList;
 	}
 
-	private String getClassType(String path) {
-		String classType = null;
-		if (path.equals("all")) {
-			classType = "*";
-		} else if (path.equals("bicycle")) {
-			classType = "web-des";
-		} else if (path.equals("travel")) {
-			classType = "web-dev";
-		} else if (path.equals("fishbowl")) {
-			classType = "dig-mar";
-		}
-		return classType;
-	}
-
-	private Map<String, Object> createResultMap(String path, String filename, String classType) {
+	private Map<String, Object> createResultMap(String path, String filename) {
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("img", "/assets/img/" + path + "/" + filename);
-		resultMap.put("class", classType);
 		return resultMap;
 	}
 }

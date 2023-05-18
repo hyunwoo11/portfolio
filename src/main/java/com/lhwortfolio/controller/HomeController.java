@@ -36,8 +36,9 @@ public class HomeController {
 	}
 
 	@GetMapping("/")
-	public String index(HttpServletRequest request, Model model) {
+	public String index(HttpServletRequest request, Model model) throws InterruptedException {
 		try {
+			System.out.println("================== 티스토리 실행 ===============================================");
 			model.addAttribute("posts", tistoryService.getPosts());
 		} catch (Exception e) {
 			logger.error("Error occurred while fetching posts from Tistory.", e);

@@ -43,6 +43,9 @@
 <script th:inline="javascript">
 $(function(){
 	//loader time out
-	setTimeout(() => {$(".loader").fadeOut();}, 2000);
+	setTimeout(() => {
+		$(".loader").fadeOut();
+		$(".wrapper").show();
+	}, 2000);
 });
 </script>
