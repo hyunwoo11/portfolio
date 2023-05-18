@@ -91,6 +91,7 @@ public class TistoryServiceImpl implements TistoryService {
 	public List<Map<String, Object>> getPostDetail(List<Integer> postIds) throws Exception {
 
 		// 로그 출력
+		LOGGER.info("============" + "TISTORY START" + "=================================");
 		LOGGER.info("getPostDetail -- postIds:" + postIds.toString());
 
 		// 반환할 게시물 정보 목록

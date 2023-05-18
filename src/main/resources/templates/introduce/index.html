@@ -5,9 +5,9 @@
 	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
 	layout:decorate="~{layout/leeLayout}">
 <head>
-<title>자기소개서</title>
+<title>포토폴리오</title>
 <!-- <th:block layout:fragment="pageCss"></th:block> -->
-<!-- <th:block layout:fragment="pageScript"></th:block> -->
+<th:block layout:fragment="pageScript"></th:block>
 </head>
 <body>
 	<th:block layout:fragment="pageContent">
@@ -16,15 +16,15 @@
 			<div class="header" id="header">
 				<div class="content-inner">
 					<p>Lee Hyun Woo</p>
-					<h1 id=""></h1>
+					<h1></h1>
 					<h2></h2>
 					<div class="typed-text">
-						안녕하세요., 
-						이현우, 
-						포토폴리오에 오신걸, 환영합니다.
-						감사합니다.
+					성명: 이현우, 
+					생년월일: 1992.02.08, 
+					주소지: 경기도 부천시, 
+					희망 지역: 부천시,서울특별시, 
+					MBTI: ENFP, 
 					</div>
-
 				</div>
 			</div>
 			<!-- Header End -->
@@ -32,12 +32,11 @@
 			<!-- Large Button Start -->
 			<div class="large-btn">
 				<div class="content-inner">
-					<a class="btn" href="#" id="lhwCareer"
-						onclick="lhwCareerFileDownlod($(this))"> <i
-						class="fa fa-download"></i>경력기술서
-					</a> <a class="btn" href="#" id="personLhwCareer"
-						onclick="lhwCareerFileDownlod($(this))"> <i
-						class="fa fa-download"></i>사람인 이력서
+					<a class="btn" href="#" id="lhwCareer" onclick="lhwCareerFileDownlod($(this))"> 
+						<i class="fa fa-download"></i>경력기술서
+					</a> 
+					<a class="btn" href="#" id="personLhwCareer" onclick="lhwCareerFileDownlod($(this))"> 
+						<i class="fa fa-download"></i>사람인 이력서
 					</a>
 				</div>
 			</div>
@@ -53,59 +52,17 @@
 					<div class="row align-items-center">
 						<div class="col-md-6 col-lg-5">
 							<img src="/assets/img/main1.jpg" alt="Image">
-							<!-- <img src="/assets/img/lhwjapen.jpg" alt="Image"> -->
 						</div>
-						<div class="col-md-6 col-lg-7">
+						<div class="col-md-6 col-lg-7" style="text-align: center;">
+							<h5> 기록과 공유를 좋아하는 </h5>
+							<h5 style="color: black; text-decoration-line: underline; text-decoration-color: currentColor; text-underline-position:under;"> 이현우입니다.</h5>
 							<p>
-								기록과 공유를 좋아하는 이현우 입니다.<br>
-								프론트엔드 개발자를 희망하고 있습니다.<br>
-								배운 모든 것을 기록하고 공유하는 것을 좋아합니다.<br>
-								공유의 중요성을 잘 알기에 항상 새기고 실천하려고 노력합니다.<br>
+								배운 모든 것을 기록하고 공유하는것을 좋아합니다.
+								공유의 중요성을 잘 알기에 항상 세기고 실천하려고 노력합니다.
+								저에 대해 더 자세히 알고 싶으시다면 아래로 스크롤해주세요.
 							</p>
 						</div>
 					</div>
-<!-- 					<div class="row"> -->
-<!-- 						<div class="col-md-6"> -->
-<!-- 							<div class="skills"> -->
-<!-- 								<div class="skill-name"> -->
-<!-- 									<p>Java</p> -->
-<!-- 									<p>40%</p> -->
-<!-- 								</div> -->
-<!-- 								<div class="progress"> -->
-<!-- 									<div class="progress-bar" role="progressbar" aria-valuenow="40" -->
-<!-- 										aria-valuemin="0" aria-valuemax="100"></div> -->
-<!-- 								</div> -->
-<!-- 								<div class="skill-name"> -->
-<!-- 									<p>JavaScript</p> -->
-<!-- 									<p>50%</p> -->
-<!-- 								</div> -->
-<!-- 								<div class="progress"> -->
-<!-- 									<div class="progress-bar" role="progressbar" aria-valuenow="50" -->
-<!-- 										aria-valuemin="0" aria-valuemax="100"></div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						<div class="col-md-6"> -->
-<!-- 							<div class="skills"> -->
-<!-- 								<div class="skill-name"> -->
-<!-- 									<p>JQuery</p> -->
-<!-- 									<p>50%</p> -->
-<!-- 								</div> -->
-<!-- 								<div class="progress"> -->
-<!-- 									<div class="progress-bar" role="progressbar" aria-valuenow="50" -->
-<!-- 										aria-valuemin="0" aria-valuemax="100"></div> -->
-<!-- 								</div> -->
-<!-- 								<div class="skill-name"> -->
-<!-- 									<p>Mybatis</p> -->
-<!-- 									<p>40%</p> -->
-<!-- 								</div> -->
-<!-- 								<div class="progress"> -->
-<!-- 									<div class="progress-bar" role="progressbar" aria-valuenow="40" -->
-<!-- 										aria-valuemin="0" aria-valuemax="100"></div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
 				</div>
 			</div>
 			<!-- About End -->
@@ -133,7 +90,7 @@
 				</div>
 			</div>
 			<!-- Review End -->
-			
+
 			<!-- skills Start -->
 			<div class="education" id="skills">
 				<div class="content-inner">
@@ -141,35 +98,57 @@
 						<h2>SKILLS</h2>
 					</div>
 					<div class="row align-items-center">
-						<div>
-							<div class="edu-col">
-								<p>
-									SVN<br>
-									git<br>
-									Msa<br>
-									Spring Boot<br>
-									Spring Framework<br>
-									SQL<br>
-									MyBatis<br>
-									MY-SQL<br>
-									PostgreSQL<br>
-									Jqgrid<br>
-									Ajax<br>
-									jQuery<br>
-									Maven<br>
-									Bootstrap<br>
-									JavaScript<br>
-									HTML5<br>
-									Java<br>
-									Linux<br>
-								</p>
-							</div>
-						</div>
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">구분</th>
+									<th scope="col">Skill</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Languages</td>
+									<td>JavaScript(ES5), Java(1.8~), HTML5, CSS, Mybatis</td>
+								</tr>
+								<tr>
+									<td>Framework</td>
+									<td>Spring Framework, Spring Boot, MSA </td>
+								</tr>
+								<tr>
+									<td>Library</td>
+									<td>Bootstrap, jQuery </td>
+								</tr>
+								<tr>
+									<td>Server</td>
+									<td>Tomcat9, AWS </td>
+								</tr>
+								<tr>
+									<td>Tools</td>
+									<td>SVN , Git </td>
+								</tr>
+								<tr>
+									<td>Environment</td>
+									<td>Linux, Windows</td>
+								</tr>
+								<tr>
+									<td>DB</td>
+									<td>MySQL, PostgreSQL, H2 Database</td>
+								</tr>
+								<tr>
+									<td>Build</td>
+									<td>Jenkins Server, Ant</td>
+								</tr>
+								<tr>
+									<td>Etc</td>
+									<td>Notion, Redmine</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
 			<!-- skills  and -->
-			
+
 			<!-- Education Start -->
 			<div class="education" id="experience">
 				<div class="content-inner">
@@ -328,9 +307,7 @@
 							<div class="srv-col">
 								<i class="fa fa-desktop"></i>
 								<h3>
-									<a href="#"
-										onclick="window.open('https://jadurang.kr/valkona/m/map', '자두잇','width=#, height=#'); return false">자두
-										(부동산가치평가)</a>
+									<a href="#" onclick="window.open('https://jadurang.kr/valkona/m/map', '자두잇','width=#, height=#'); return false">자두 (부동산가치평가)</a>
 								</h3>
 								<p>실거래가, 공시가, 경 · 공매가부터 평가금액까지 이제 자두에서 꼼꼼하게 알아보세요.</p>
 							</div>
@@ -339,8 +316,7 @@
 							<div class="srv-col">
 								<i class="fa fa-desktop"></i>
 								<h3>
-									<a href="#"
-										onclick="window.open('https://www.jadurang.kr/com/mainframe', '데이터플랫폼','width=#, height=#'); return false">데이터플랫폼</a>
+									<a href="#" onclick="window.open('https://www.jadurang.kr/com/mainframe', '데이터플랫폼','width=#, height=#'); return false">데이터플랫폼</a>
 								</h3>
 								<p>데이터샵이 당신을 새로운 삶의 시작으로 이끕니다.</p>
 							</div>
@@ -349,8 +325,7 @@
 							<div class="srv-col">
 								<i class="fa fa-desktop"></i>
 								<h3>
-									<a href="#"
-										onclick="window.open('https://nspace24.com/', 'Nspace','width=#, height=#'); return false">Nspace솔루션</a>
+									<a href="#" onclick="window.open('https://nspace24.com/', 'Nspace','width=#, height=#'); return false">Nspace솔루션</a>
 								</h3>
 								<p>건축 공간을 창조하는 클라우드 공간 , NSPACE로 도면 중심 협업을 경험하세요.</p>
 							</div>
@@ -375,9 +350,7 @@
 									</a>
 								</div>
 								<div class="review-img">
-									<a th:href="@{${post.postUrl}}" target="_blank"> <img
-										th:src="@{${post.img}}" alt="Blog">
-									</a>
+									<a th:href="@{${post.postUrl}}" target="_blank"> <img th:src="@{${post.img}}" alt="Blog"></a>
 									<div class="review-name">
 										<h3>[[${post.title}]]</h3>
 										<p>
@@ -396,7 +369,7 @@
 			<div class="contact" id="contact">
 				<div class="content-inner">
 					<div class="content-header">
-						<h2>이메일로 연락하기</h2>
+						<h2>EMAIL</h2>
 						<p>자세한 이야기가 필요하다면, 아래 항목을 작성하여 저에게 보내주세요.</p>
 					</div>
 					<div id="container">
@@ -412,23 +385,25 @@
 							<div id="map" style="width: 100%; height: 100%"></div>
 							<!-- 로드뷰 버튼 -->
 							<div id="roadviewControl" onclick="setRoadviewRoad()"></div>
-							<!-- 거리계산 버튼 -->
 						</div>
 					</div>
 
 					<div class="social">
-						<a class="btn" id="chkUseDistrict" onclick="setOverlayMapTypeId($(this).attr('id'))">
-							<i class="">지적</i>
-						</a>
-						<a class="btn" id="chkTerrain" onclick="setOverlayMapTypeId($(this).attr('id'))">
-							<i class="">지형</i>
-						</a>
-						<a class="btn" id="chkTraffic" onclick="setOverlayMapTypeId($(this).attr('id'))">
-							<i class="">교통</i>
-						</a>
-						<a class="btn" id="chkBicycle" style="width: 48px;" onclick="setOverlayMapTypeId($(this).attr('id'))">
-							<i class="">자전거</i>
-						</a>
+<!-- 						<a class="btn" id="chkUseDistrict" onclick="setOverlayMapTypeId($(this).attr('id'))">  -->
+<!-- 							<i class="">지적</i> -->
+<!-- 						</a>  -->
+						
+<!-- 						<a class="btn" id="chkTerrain" onclick="setOverlayMapTypeId($(this).attr('id'))">  -->
+<!-- 							<i class="">지형</i> -->
+<!-- 						</a>  -->
+						
+<!-- 						<a class="btn" id="chkTraffic" onclick="setOverlayMapTypeId($(this).attr('id'))">  -->
+<!-- 							<i class="">교통</i> -->
+<!-- 						</a>  -->
+						
+<!-- 						<a class="btn" id="chkBicycle" style="width: 48px;" onclick="setOverlayMapTypeId($(this).attr('id'))">  -->
+<!-- 							<i class="">자전거</i> -->
+<!-- 						</a> -->
 					</div>
 
 					<div class="row align-items-center" style="margin-top: 5%;">
@@ -437,9 +412,9 @@
 								<p>
 									<i class="fa fa-user"></i>이현우
 								</p>
-								<p>
-									<i class="fa fa-tag"></i>Web Developer
-								</p>
+<!-- 								<p> -->
+<!-- 									<i class="fa fa-tag"></i>Web Developer -->
+<!-- 								</p> -->
 								<p>
 									<i class="fa fa-envelope"></i><a
 										href="mailto:dldjsl2@naver.com">dldjsl2@naver.com</a>
@@ -450,14 +425,6 @@
 								<p>
 									<i class="fa fa-map-marker"></i>경기도 부천시 경인로3번길 24 (우)1473
 								</p>
-								<div class="social">
-									<a class="btn" href="" onclick="window.open('https://www.youtube.com/@user-mp4hv6hg6q', 'youtube','width=#, height=#'); return false">
-										<i class="fab fa-youtube"></i>
-									</a>
-									<a class="btn" href="" onclick="window.open('https://github.com/hyunwoo11/portfolio', 'github','width=#, height=#'); return false">
-										<i class="fab fa-github"></i>
-									</a>
-								</div>
 							</div>
 						</div>
 
@@ -468,20 +435,14 @@
 									<div class="col-lg-12">
 										<form id="contactForm" onsubmit="sendEmail(); return false">
 											<div class="form-group">
-												<input type="email" name="email" id="email"
-													class="form-control" placeholder="이메일 주소" required
-													data-error="이메일 주소를 입력하세요.">
+												<input type="email" name="email" id="email" class="form-control" placeholder="이메일 주소" required data-error="이메일 주소를 입력하세요.">
 												<div class="help-block with-errors"></div>
 											</div>
 											<div class="form-group">
-												<textarea name="message" class="form-control" id="message"
-													cols="30" rows="6" placeholder="내용" required
-													data-error="내용을 입력하세요."></textarea>
+												<textarea name="message" class="form-control" id="message" cols="30" rows="6" placeholder="내용" required data-error="내용을 입력하세요."></textarea>
 												<div class="help-block with-errors"></div>
 											</div>
-											<button type="submit" id="btn_sendEmail"
-												class="btn common-btn three">
-												보내기 <span></span>
+											<button type="submit" id="btn_sendEmail" class="btn common-btn three"> 보내기 <span></span>
 											</button>
 											<div id="msgSubmit" class="h3 text-center hidden"></div>
 											<div class="clearfix"></div>
@@ -494,6 +455,24 @@
 				</div>
 			</div>
 			<!-- Contact End -->
+			
+			<!-- icon btn -->			
+			<div class="contact">
+				<div class="content-inner">
+					<div class="social">
+						<a class="btn" onclick="window.open('https://www.youtube.com/@user-mp4hv6hg6q', 'youtube','width=#, height=#'); return false">
+							<i class="fab fa-youtube"></i>
+						</a> 
+						<a class="btn" href="" onclick="window.open('https://github.com/hyunwoo11/portfolio', 'github','width=#, height=#'); return false">
+							<i class="fab fa-github"></i>
+						</a>
+						<a class="btn" href="" onclick="window.open('https://yeonhyeon.tistory.com', 'tistory','width=#, height=#'); return false">
+							<i style="font-style: inherit;">T</i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- icon btn -->	
 		</div>
 	</th:block>
 </body>

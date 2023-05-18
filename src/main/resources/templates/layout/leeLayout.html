@@ -7,23 +7,46 @@
 <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">이현우</title>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="51">
+
+	<!-- loader -->
+	<div class="loader">
+		<div class="d-table">
+			<div class="d-table-cell">
+				<div class="preloader__wrapper">
+					<div class="preloader__circle">
+						<div class="preloader__circle-line preloader__circle-line--1"></div>
+						<div class="preloader__circle-line preloader__circle-line--2"></div>
+						<div class="preloader__circle-line preloader__circle-line--3"></div>
+						<div class="preloader__circle-line preloader__circle-line--4"></div>
+						<div class="preloader__circle-line preloader__circle-line--5"></div>
+						<div class="preloader__circle-line preloader__circle-line--6"></div>
+						<div class="preloader__circle-line preloader__circle-line--7"></div>
+						<div class="preloader__circle-line preloader__circle-line--8"></div>
+						<div class="preloader__circle-line preloader__circle-line--9"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- End loader -->
 	<div class="wrapper">
 		<!-- 공통 Menu -->
 		<th:block th:replace="~{layout/leeMenu :: leeMenu}"></th:block>
-		
+
 		<!-- 공통 Content -->
 		<th:block layout:fragment="pageContent"></th:block>
-		
+
 		<!-- 공통 Footer -->
 		<footer th:replace="~{layout/leeFooter :: leeFooter}"></footer>
 	</div>
-	
+
 	<!-- script 관련 -->
 	<th:block layout:fragment="pageScript"></th:block>
-	
+
 	<!-- index script 관련 -->
 	<th:block layout:fragment="indexScript"></th:block>
-	
+
 	<!-- css 관련 해더 -->
 	<th:block th:replace="~{layout/leeHeader}"></th:block>
 </body>

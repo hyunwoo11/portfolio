@@ -21,11 +21,12 @@
 	if ($('.header h2').length == 1) {
 		var typed_strings = $('.header .typed-text').text();
 		var typed = new Typed('.header h2', {
-			strings : typed_strings.split(', '),
-			typeSpeed : 100,
-			backSpeed : 20,
-			smartBackspace : false,
-			loop : true
+			strings: typed_strings.split(', '), // 출력될 문자열의 배열
+			typeSpeed: 100, // 각 문자당 타이핑 속도 (밀리초 단위)
+			backSpeed: 20, // 백스페이스 속도 (밀리초 단위)
+			smartBackspace: false, // 스마트 백스페이스 기능 활성화
+			loop: true, // 타이핑 애니메이션을 무한히 반복
+			cursorChar: '_' // 커서로 사용할 문자, 이 경우에는 밑줄 (_) 문자
 		});
 	}
 

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<!-- 	layout:decorate="~{layout/leeLayout}
+
+<head>
+<meta charset="UTF-8">
+<title>gallery</title>
+
+<!-- CSS Libraries -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+<link href="/assets/lib/slick/slick.css" rel="stylesheet">
+<link href="/assets/lib/slick/slick-theme.css" rel="stylesheet">
+<link href="/assets/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+<link href="/assets/css/style.css" rel="stylesheet">
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+<script src="/assets/lib/easing/easing.min.js"></script>
+<script src="/assets/lib/slick/slick.min.js"></script>
+<script src="/assets/lib/typed/typed.min.js"></script>
+<script src="/assets/lib/waypoints/waypoints.min.js"></script>
+<script src="/assets/lib/isotope/isotope.pkgd.min.js"></script>
+<script src="/assets/lib/lightbox/js/lightbox.min.js"></script>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/lib/easing/easing.min.js"></script>
+
+<style type="text/css">
+body {
+	color: #666666;
+	background: #f8f9fa;
+	font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+	font-family: Satisfy;
+	font-size: 50px;
+	text-align: center;
+	color: black;
+	padding: 1%;
+}
+
+#gallery {
+	-webkit-column-count: 4;
+	-moz-column-count: 4;
+	column-count: 4;
+	-webkit-column-gap: 20px;
+	-moz-column-gap: 20px;
+	column-gap: 20px;
+}
+
+@media ( max-width :1200px) {
+	#gallery {
+		-webkit-column-count: 3;
+		-moz-column-count: 3;
+		column-count: 3;
+		-webkit-column-gap: 20px;
+		-moz-column-gap: 20px;
+		column-gap: 20px;
+	}
+}
+
+@media ( max-width :800px) {
+	#gallery {
+		-webkit-column-count: 2;
+		-moz-column-count: 2;
+		column-count: 2;
+		-webkit-column-gap: 20px;
+		-moz-column-gap: 20px;
+		column-gap: 20px;
+	}
+}
+
+@media ( max-width :600px) {
+	#gallery {
+		-webkit-column-count: 1;
+		-moz-column-count: 1;
+		column-count: 1;
+	}
+}
+
+#gallery img, #gallery video {
+	width: 100%;
+	height: auto;
+	margin: 4% auto;
+	box-shadow: -3px 5px 15px #000;
+	cursor: pointer;
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+}
+
+.modal-img, .model-vid {
+	width: 100%;
+	height: auto;
+}
+
+.modal-body {
+	padding: 0px;
+}
+
+.back-to-top {
+	position: fixed;
+	display: none;
+	width: 47px;
+	height: 80px; !important;
+	text-align: center;
+	line-height: 1;
+	font-size: 71px;
+	right: 30px;
+	bottom: 30px;
+	transition: background 0.5s;
+	z-index: 11;
+}
+</style>
+
+</head>
+<body>
+
+	<h1>Lee Hyun Woo Gallery</h1>
+	<hr>
+
+	<div class="info_top flexCenterAll">
+		<a type="button"> <img style="height: 130px;" src="/assets/img/arrow_back2.svg" onclick="history.back();" alt="뒤로가기버튼">
+		</a>
+	</div>
+
+	<div id="gallery" class="container-fluid">
+		<img th:src="${item.img}" class="img-responsive"
+			th:each="item : ${imgLists}">
+	</div>
+
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Back to Top -->
+	<a href="#" class="back-to-top" style="display: inline;"><i
+		class="fa fa-angle-double-up"></i></a>
+
+</body>
+
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+						$("img")
+								.click(
+										function() {
+											var t = $(this).attr("src");
+											$(".modal-body")
+													.html(
+															"<img src='"+t+"' class='modal-img'>");
+											$("#myModal").modal();
+										});
+
+						$("video")
+								.click(
+										function() {
+											var v = $("video > source");
+											var t = v.attr("src");
+											$(".modal-body")
+													.html(
+															"<video class='model-vid' controls><source src='"+t+"' type='video/mp4'></source></video>");
+											$("#myModal").modal();
+										});
+					});//EOF Document.ready
+
+	//Back to top button
+	$(window).scroll(function() {
+		if ($(this).scrollTop() > 100) {
+			$('.back-to-top').fadeIn('slow');
+		} else {
+			$('.back-to-top').fadeOut('slow');
+		}
+	});
+	$('.back-to-top').click(function() {
+		$('html, body').animate({
+			scrollTop : 0
+		}, 1500, 'easeInOutExpo');
+		return false;
+	});
+</script>
+
+</html>

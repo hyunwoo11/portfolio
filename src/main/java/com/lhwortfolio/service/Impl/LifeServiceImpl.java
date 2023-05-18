@@ -37,12 +37,15 @@ public class LifeServiceImpl implements LifeService {
 	@Override
 	public List<Map<String, Object>> getLife() {
 		List<Map<String, Object>> resultList = new LinkedList<>();
-		String[] paths = { "all", "bicycle", "travel", "fishbowl" };
-		String lifeFileDownloadPath = "./src/main/resources/static/assets/img/";
+		String[] paths = {"bicycle", "travel", "fishbowl" };
+		String lifeFileDownloadPath = "/var/lib/tomcat9/webapps/file/";
+		
+		
+		logger.info("===================" + lifeFileDownloadPath + "==================");
 
 		for (String path : paths) {
 			String classType = getClassType(path);
-			String realPath = lifeFileDownloadPath + path + "\\";
+			String realPath = lifeFileDownloadPath + path + "/";
 			File directory = new File(realPath);
 
 			// 디렉토리가 존재하면 Java 파일 목록 생성
@@ -50,11 +53,11 @@ public class LifeServiceImpl implements LifeService {
 				String[] filenames = directory.list();
 				for (int i = 0; i < filenames.length; i++) {
 					String filename = filenames[i];
-					if(i <= 1 ) {
-						Map<String, Object> resultMap = createResultMap(path, filename, classType);
-						resultList.add(resultMap);
-					}
+					Map<String, Object> resultMap = createResultMap(path, filename, classType);
+					resultList.add(resultMap);
 				}
+			}else {
+				logger.error("================== 이미지 디렉토리가 없습니다. ===================");
 			}
 		}
 		return resultList;
