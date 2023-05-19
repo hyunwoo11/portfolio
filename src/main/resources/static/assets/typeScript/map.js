@@ -1,37 +1,71 @@
 $(document).ready(() => {
-	
+	setTimeout(() => {
+		test();
+	}, 3000);
 });
 
-// 카카오맵(Kakao Map) API 초기화
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+var mapContainer;
+var map;
+var marker;
+
+function test (){
+	// 카카오맵(Kakao Map) API 초기화
+	mapContainer = document.getElementById('map'), // 지도를 표시할 div
 	mapOption = {
 		center: new kakao.maps.LatLng(37.4843, 126.75508), // 지도의 중심좌표
 		level: 5 // 지도의 확대 레벨
 	};
 
-var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다.
+	
+	//지도 확대/축소 이벤트를 바 소스로 생성
+	const zoomControl = new kakao.maps.ZoomControl();
+	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT); // 바를 지도 오른쪽에 추가
+	
+	//지도에 마커 추가
+	marker = new kakao.maps.Marker({
+	  position: new kakao.maps.LatLng(37.4843, 126.75508), // 마커 위치 좌표
+	  title : "우리집 :)", // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+	  map: map // 마커를 표시할 지도 객체
+	});
+	
+	// 지도에 인포윈도우(정보 창) 추가
+	const infowindow = new kakao.maps.InfoWindow({
+	  content: '<div class="custom-infowindow"><h4>우리집</h4><p>경기도 부천시 송내동</p></div>', // 인포윈도우에 표시할 내용
+	  removable: true // 닫기 버튼 표시 여부
+	});
+	
+	
+	// 마커를 클릭하면 인포윈도우 표시
+	kakao.maps.event.addListener(marker, 'click', () => {
+	  infowindow.open(map, marker); // 인포윈도우를 지도와 마커에 연결하여 표시
+	});
+	
+	//지도에 클릭 이벤트를 등록합니다
+	kakao.maps.event.addListener(map, 'click', function(mouseEvent){
+	    
+	    // 지도 위에 로드뷰 도로 오버레이가 추가된 상태가 아니면 클릭이벤트를 무시합니다 
+	    if(!overlayOn) {
+	        return;
+	    }
+
+	    // 클릭한 위치의 좌표입니다 
+	    var position = mouseEvent.latLng;
+
+	    // 마커를 클릭한 위치로 옮깁니다
+	    marker.setPosition(position);
+
+	    // 클락한 위치를 기준으로 로드뷰를 설정합니다
+	    toggleRoadview(position);
+	});
+}
 
 //지도에 마커 추가
-const marker = new kakao.maps.Marker({
+var marker = new kakao.maps.Marker({
   position: new kakao.maps.LatLng(37.4843, 126.75508), // 마커 위치 좌표
   title : "우리집 :)", // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
   map: map // 마커를 표시할 지도 객체
 });
-
-// 지도에 인포윈도우(정보 창) 추가
-const infowindow = new kakao.maps.InfoWindow({
-  content: '<div class="custom-infowindow"><h4>우리집</h4><p>경기도 부천시 송내동</p></div>', // 인포윈도우에 표시할 내용
-  removable: true // 닫기 버튼 표시 여부
-});
-
-// 마커를 클릭하면 인포윈도우 표시
-kakao.maps.event.addListener(marker, 'click', () => {
-  infowindow.open(map, marker); // 인포윈도우를 지도와 마커에 연결하여 표시
-});
-
-//지도 확대/축소 이벤트를 바 소스로 생성
-const zoomControl = new kakao.maps.ZoomControl();
-map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT); // 바를 지도 오른쪽에 추가
 
 
 // 지도 타입 정보를 가지고 있을 객체입니다
@@ -460,24 +494,6 @@ kakao.maps.event.addListener(marker, 'dragend', function(mouseEvent) {
     var position = marker.getPosition();
 
     // 마커가 놓인 위치를 기준으로 로드뷰를 설정합니다
-    toggleRoadview(position);
-});
-
-//지도에 클릭 이벤트를 등록합니다
-kakao.maps.event.addListener(map, 'click', function(mouseEvent){
-    
-    // 지도 위에 로드뷰 도로 오버레이가 추가된 상태가 아니면 클릭이벤트를 무시합니다 
-    if(!overlayOn) {
-        return;
-    }
-
-    // 클릭한 위치의 좌표입니다 
-    var position = mouseEvent.latLng;
-
-    // 마커를 클릭한 위치로 옮깁니다
-    marker.setPosition(position);
-
-    // 클락한 위치를 기준으로 로드뷰를 설정합니다
     toggleRoadview(position);
 });
 

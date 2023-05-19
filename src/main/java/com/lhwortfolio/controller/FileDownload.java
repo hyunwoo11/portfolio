@@ -7,28 +7,22 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.lhwortfolio.service.LifeService;
-
 @Controller
 public class FileDownload {
 
+//	private String fileDownloadPath = "C:\\lee_hyunwoo\\workspace\\portfolio\\src\\main\\resources\\static\\assets\\file\\";
 	private String fileDownloadPath = "/var/lib/tomcat9/webapps/file/";
 	
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -37,7 +31,7 @@ public class FileDownload {
 	public void getCareerFiledown(@RequestParam String careerFileNm, HttpServletRequest request,
 			HttpServletResponse response) {
 
-		if (!careerFileNm.equals(careerFileNm)) {
+		if (careerFileNm.isEmpty()) {
 			logger.error("careerFileNm 값이 없습니다.");
 			return;
 		}
@@ -45,12 +39,13 @@ public class FileDownload {
 		String fileType = careerFileNm.equals("lhwCareer") ? "이현우_경력이력서" : "사림인_이력서";
 		String fileNm = fileType + ".pdf";
 		String encodedFileName = null;
+		
 		try {
-			encodedFileName = encodeFileName("이현우 경력기술서.pdf", request.getHeader("User-Agent"));
+			encodedFileName = encodeFileName(fileNm);
 		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 		File downFile = new File(fileDownloadPath + fileNm);
 
 		logger.info("===== 이현우 경력기술서 다운로드 =====");
@@ -85,15 +80,16 @@ public class FileDownload {
 		}
 	}
 
-	private String encodeFileName(String fileName, String header) throws UnsupportedEncodingException {
-		String encodedFileName = "";
-		if (header.contains("MSIE") || header.contains("Trident")) {
-			encodedFileName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "%20");
-		} else if (header.contains("Chrome")) {
-			encodedFileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
-		} else {
-			encodedFileName = URLEncoder.encode(fileName, "UTF-8");
-		}
-		return encodedFileName;
+	private String encodeFileName(String fileName) throws UnsupportedEncodingException {
+//		String encodedFileName = "";
+		fileName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "%20"); 
+//		if (header.contains("MSIE") || header.contains("Trident")) {
+//			encodedFileName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "%20");
+//		} else if (header.contains("Chrome")) {
+//			encodedFileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+//		} else {
+//			encodedFileName = URLEncoder.encode(fileName, "UTF-8");
+//		}
+		return fileName;
 	}
 }

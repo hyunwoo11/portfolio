@@ -7,27 +7,14 @@
 <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">이현우</title>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="51">
-
+	
+	<!-- 공통 스크립트-->
 	<!-- loader -->
-	<div class="loader">
-		<div class="d-table">
-			<div class="d-table-cell">
-				<div class="preloader__wrapper">
-					<div class="preloader__circle">
-						<div class="preloader__circle-line preloader__circle-line--1"></div>
-						<div class="preloader__circle-line preloader__circle-line--2"></div>
-						<div class="preloader__circle-line preloader__circle-line--3"></div>
-						<div class="preloader__circle-line preloader__circle-line--4"></div>
-						<div class="preloader__circle-line preloader__circle-line--5"></div>
-						<div class="preloader__circle-line preloader__circle-line--6"></div>
-						<div class="preloader__circle-line preloader__circle-line--7"></div>
-						<div class="preloader__circle-line preloader__circle-line--8"></div>
-						<div class="preloader__circle-line preloader__circle-line--9"></div>
-					</div>
-				</div>
-			</div>
-		</div>
+	<th:block th:replace="~{layout/script :: script}"></th:block>
+	<div id="loader">
+		<div class="spinner"></div>
 	</div>
+	<!-- loader -->
 	
 	<!-- End loader -->
 	<div class="wrapper" style="display: none;">

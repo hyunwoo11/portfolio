@@ -39,13 +39,29 @@
 <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=196dcc01d1e6c27cd6f46f874146b9cf&libraries=services"></script>
 <script src="/assets/typeScript/map.js"></script>
 
+<script type="text/javascript" src="https://res.cloudinary.com/veseylab/raw/upload/v1636192990/magicmouse/magic_mouse-1.2.1.cdn.min.js"></script>
 
 <script th:inline="javascript">
 $(function(){
-	//loader time out
-	setTimeout(() => {
-		$(".loader").fadeOut();
-		$(".wrapper").show();
-	}, 2000);
+	//mouse effect event
+	$('a').each(function(index, item){
+		$(item).addClass('magic-hover');
+		$(item).addClass('magic-hover__square');
+		
+	});
+	
+	options = {
+		"cursorOuter": "circle-basic",
+		"hoverEffect": "circle-move",
+		"hoverItemMove": false,
+		"defaultCursor": true,
+		"outerWidth": 30,
+		"outerHeight": 30,
+		"color": "red",
+	  };
+	  
+	magicMouse(options);
+	//mouse effect event end
+	
 });
 </script>

@@ -16,6 +16,19 @@
 			}
 		}
 	});
+	
+	//메뉴바 img변경 제어	
+	$(".navbar-toggler").on('click', function(event) {
+		if($(".navbar-toggler span").hasClass("navbar-toggler-icon") === true) {
+			// class가 존재함.
+			$(".navbar-toggler span").removeClass('navbar-toggler-icon');
+			$(".navbar-toggler span").addClass('fa fa-times');
+		} else {
+			// class가 존재하지 않음	
+			$(".navbar-toggler span").removeClass('fa fa-times');
+			$(".navbar-toggler span").addClass('navbar-toggler-icon');
+		}
+	});
 
 	// Typed Initiate
 	if ($('.header h2').length == 1) {

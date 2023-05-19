@@ -9,7 +9,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 public class PortfolioApplication extends SpringBootServletInitializer{
 
-
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(PortfolioApplication.class);

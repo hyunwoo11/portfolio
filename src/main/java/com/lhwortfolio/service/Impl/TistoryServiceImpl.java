@@ -80,7 +80,7 @@ public class TistoryServiceImpl implements TistoryService {
 			while (iterator.hasNext()) {
 				JSONObject item = iterator.next();
 				postIds.add(Integer.valueOf((String) item.get("id")));
-				if (postIds.size() == 10)
+				if (postIds.size() == 5)
 					break;
 			}
 		}

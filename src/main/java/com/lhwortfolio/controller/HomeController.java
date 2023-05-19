@@ -1,8 +1,5 @@
 package com.lhwortfolio.controller;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -12,12 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.lhwortfolio.service.EmailService;
-import com.lhwortfolio.service.LifeService;
 import com.lhwortfolio.service.TistoryService;
 
 @Controller
@@ -34,7 +28,7 @@ public class HomeController {
 		this.tistoryService = tistoryService;
 		this.emailService = emailService;
 	}
-
+	
 	@GetMapping("/")
 	public String index(HttpServletRequest request, Model model) throws InterruptedException {
 		try {
