@@ -37,7 +37,6 @@ function sendEmail() {
 		data: form,
 		type:"POST",
 	}).done(function (fragment) {
-	
 		if(fragment){
 			$("#contactForm").find("[name=email]").val('');
 			$("#contactForm").find("[name=message]").val('');

@@ -1,26 +1,67 @@
 <div class="sidebar" th:fragment="leeMenu">
 	<div class="sidebar-header">
-		<img src="/assets/img/leehyunwoo.jpg" alt="Image">
+		<img src="/assets/img/main6.gif" alt="Image">
 	</div>
 	<div class="sidebar-content">
-		<nav class="navbar navbar-expand-md bg-dark navbar-dark" style="z-index: 1;">
-			<a href="#" class="navbar-brand">lhw-portfolio</a>
-			<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarCollapse">
-				<ul class="nav navbar-nav">
-					<li class="nav-item"><a class="nav-link" href="#header">홈<i class="fa fa-home"></i></a></li>
-					<li class="nav-item"><a class="nav-link" href="#about">소개<i class="fa fa-address-card"></i></a></li> 
-					<li class="nav-item"><a class="nav-link" href="#career">경력 사항<i class="fa fa-address-book"></i></a></li>
-					<li class="nav-item"><a class="nav-link" href="#experience">프로젝트<i class="fa fa-project-diagram"></i></a></li>
-					<li class="nav-item"><a class="nav-link" href="#service">웹 서비스<i class="fa fa-desktop"></i></a></li>
-					<li class="nav-item"><a class="nav-link" href="#review">블로그<i class="fa fa-star"></i></a></li>
-					<li class="nav-item"><a class="nav-link" href="#contact">이메일<i class="fa fa-envelope"></i></a></li>
-					<li class="nav-item"><a class="nav-link" href="/gallery">갤러리<i class="fa fa-image"></i></a></li>
-				</ul>
-			</div>
-		</nav>
+	
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+		<a href="#" id="navbarNm" class="navbar-brand navbarNm">LHW's Portfolio</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:#000; font-size:28px;"></i></span>
+		</button>
+	
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="nav navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="#about">About me<i class="fa fa-address-card"></i></a></li> 
+				<li class="nav-item"><a class="nav-link" href="#skills">Skills<i class="fa fa-address-card"></i></a></li> 
+				<li class="nav-item"><a class="nav-link" href="#projects">Projects<i class="fa fa-project-diagram"></i></a></li>
+				<li class="nav-item"><a class="nav-link" href="#career">Career<i class="fa fa-address-book"></i></a></li>
+				<li class="nav-item"><a class="nav-link" href="#tistory">Blog<i class="fa fa-star"></i></a></li>
+				<li class="nav-item"><a class="nav-link" href="#contact">Contact Me<i class="fa fa-envelope"></i></a></li>
+				<li class="nav-item"><a class="nav-link" href="#archiving">Archiving<i class="fa fa-address-card"></i></a></li>
+				
+				<!-- 경력기술서 dowunload -->
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-download"></i>Download
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="btn" title="경력기술서" id="lhwCareer" onclick="lhwCareerFileDownlod($(this))"> 
+							경력기술서_다운로드
+						</a> 
+						<a class="btn" title="사람인 이력서" id="personLhwCareer" onclick="lhwCareerFileDownlod($(this))"> 
+							사람인이력서_다운로드
+						</a>
+					</div>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+<!-- 기존 -->
+<!-- 		<nav class="navbar navbar-expand-md bg-dark navbar-dark"> -->
+<!-- 			<a href="#" id="navbarNm" class="navbar-brand navbarNm">LHW's Portfolio</a> -->
+<!-- 			<button id="btn-navbar" type="button" class="navbar-toggler ml-auto" data-toggle="collapse" data-target="#navbarCollapse"> -->
+<!-- 				<span class="navbar-toggler-icon"> -->
+<!-- 					<i class="fas fa-bars" style="color:#000; font-size:28px;"></i> -->
+<!-- 				</span> -->
+<!-- 			</button> -->
+<!-- 			<div class="collapse navbar-collapse" id="navbarCollapse"> -->
+<!-- 				<ul class="nav navbar-nav"> -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#about">About me<i class="fa fa-address-card"></i></a></li>  -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#skills">Skills<i class="fa fa-address-card"></i></a></li>  -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#projects">Projects<i class="fa fa-project-diagram"></i></a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#career">Career<i class="fa fa-address-book"></i></a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#tistory">Blog<i class="fa fa-star"></i></a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#contact">Contact Me<i class="fa fa-envelope"></i></a></li> -->
+<!-- 					<li class="nav-item"><a class="nav-link" href="#archiving">Archiving<i class="fa fa-address-card"></i></a></li> -->
+<!-- 				</ul> -->
+<!-- 			</div> -->
+<!-- 		</nav> -->
+		
 	</div>
 	<div class="sidebar-footer">
 		<a onclick="window.open('https://www.youtube.com/@user-mp4hv6hg6q', 'youtube','width=#, height=#'); return false" ><i class="fab fa-youtube"></i></a> 
