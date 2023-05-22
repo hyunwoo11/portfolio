@@ -531,7 +531,7 @@ a:hover, a:active, a:focus {
 
 .content-header h2 {
 	color: var(--color-text);
-	font-size: 35px;
+	font-size: 32px;
 	font-weight: 700;
 	letter-spacing: 3px;
 	margin: 0;
@@ -683,7 +683,7 @@ h3 i {
 }
 
 .education .edu-col h3 {
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: 700;
 	letter-spacing: 2px;
 }

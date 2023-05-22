@@ -1,4 +1,5 @@
 $(document).ready(() => {
+	today();
 });
 
 // 경력기술서 다운로드 메소드
@@ -53,6 +54,23 @@ function sendEmail() {
 		}
 	});
 	return false;
+}
+
+//emailReset
+function setEmailReset(){
+	if (confirm("이메일 전부 초기화 하시겠습니까?")) {
+		$('#email').val('');
+		$('#message').val('');
+	}
+}
+
+function today(){
+	var today = new Date();
+	var year = today.getFullYear();
+	var month = ('0' + (today.getMonth() + 1)).slice(-2);
+	var day = ('0' + today.getDate()).slice(-2);
+	var dateString = year + '-' + month  + '-' + day;
+	$("#footer_today").append("Last update: " + dateString);
 }
 
 

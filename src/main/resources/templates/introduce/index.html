@@ -39,6 +39,7 @@
 					<div class="content-header">
 						<h2>ABOUT ME</h2>
 					</div>
+					<p>기본정보</p>
 					<div class="row align-items-center">
 						<div class="col-md-6">
 							<div class="contact-info">
@@ -63,10 +64,6 @@
 									<a href="mailto:dldjsl2@naver.com">dldjsl2@naver.com</a>
 								</p>
 								
-								<p>
-									<i class="fa fa-graduation-cap"></i>연성대학교(정보통신과)
-								</p>
-								
 							</div>
 						</div>
 					</div>
@@ -74,18 +71,117 @@
 			</div>
 			<!-- Contact End -->
 			
-			<!-- skills Start -->
+			<!-- Education Start -->
+			<div class="education" id="education">
+				<div class="content-inner">
+					<div class="content-header">
+						<h2>MY EDUCATION </h2>
+					</div>
+					
+					<p>학력</p>
+					
+					<!-- 대학교 -->
+					<div class="row align-items-center">
+						<div>
+							<div class="edu-col">
+								<span>
+									<h3>한국방송통신대학교</h3>
+								</span>
+								<h3> 2023.03 <i>~</i> 2025.03</h3>
+								<div class="list-group list-group-flush mt-30">
+									컴퓨터과학과(재학중)
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row align-items-center">
+						<div>
+							<div class="edu-col">
+								<span>
+									<h3>연성대학교(경기)</h3>
+								</span>
+								<h3> 2011.03 <i>~</i> 2016.02</h3>
+								<div class="list-group list-group-flush mt-30">
+									정보통신과 졸업 
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 대학교 -->
+					
+					<!-- 고등학교 -->
+					<div class="row align-items-center">
+						<div>
+							<div class="edu-col">
+								<span>
+									<h3>부천공업고등학교</h3>
+								</span>
+								<h3> 2009.02 <i>~</i> 2011.03</h3>
+								<div class="list-group list-group-flush mt-30">
+									전문(실업)계 (통신과) 졸업
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Education and -->
+			
+			<!-- external Activities Start --> 
+			<div class="education" id="external">
+				<div class="content-inner">
+					<div class="content-header">
+						<h2>EXTERNAL ACTIVITIES</h2>
+					</div>
+					<p>교육이수</p>
+					<!-- 한국소프트웨어 기술훈련 -->
+					<div class="row align-items-center">
+						<div>
+							<div class="edu-col">
+								<span>
+									<h3>한국소프트웨어 기술훈련</h3>
+								</span>
+								<h3> 2019.01 <i>~</i> 2020.01</h3>
+								<div class="list-group list-group-flush mt-30">
+									응용SW엔지니어링_SW개발_L5_ver2.0
+								</div>
+								
+							</div>
+						</div>
+					</div>
+					
+					<!-- KH정보 교육원 -->
+					<div class="row align-items-center">
+						<div>
+							<div class="edu-col">
+								<span>
+									<h3>KH 정보교육원</h3>
+								</span>
+								<h3> 2018.04 <i>~</i> 2018.11</h3>
+								<div class="list-group list-group-flush mt-30">
+									[NCS]웹개발 응용 SW 엔지니어 양성과정 교육
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- external Activities end --> 
+			
+			<!-- Skills Start -->
 			<div class="education" id="skills">
 				<div class="content-inner">
 					<div class="content-header">
 						<h2>SKILLS</h2>
 					</div>
+					<p>보유스킬</p>
 					<div class="row align-items-center">
 						<table class="table">
 							<thead>
 								<tr style="text-align: center;">
 									<th scope="col">구분</th>
-									<th scope="col">Skill</th>
+									<th scope="col">SKILL</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -103,7 +199,7 @@
 								</tr>
 								<tr>
 									<td>Server</td>
-									<td>Tomcat9, AWS </td>
+									<td>Tomcat9, AWS(EC2, Route 53) </td>
 								</tr>
 								<tr>
 									<td>Tools</td>
@@ -138,6 +234,7 @@
 					<div class="content-header">
 						<h2>PROJECT</h2>
 					</div>
+					<p>프로젝트 대한 설명입니다.</p>
 					<div class="row align-items-center">
 						<div>
 							<div class="edu-col">
@@ -320,6 +417,7 @@
 					<div class="content-header">
 						<h2>CAREER</h2>
 					</div>
+					<p>경력</p>
 					<div class="row align-items-center">
 						<table class="table">
 							<thead>
@@ -437,9 +535,8 @@
 							<div class="form">
 								<form id="contactForm" onsubmit="sendEmail(); return false">
 									<div class="col-lg-12">
-										<div class="form-group">
+										<div class="form-group" style="position: relative;">
 											<label for="email">이메일 주소</label>
-<!-- 											<input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="이메일 주소" required data-error="이메일 주소를 입력하세요."> -->
 											<input type="email" name="email" id="email" class="form-control" placeholder="이메일 주소" required data-error="이메일 주소를 입력하세요." aria-describedby="emailHelp">
 											<small id="emailHelp" class="form-text text-muted">ex)xxxxx@naver.com</small>
 										</div>
@@ -448,6 +545,7 @@
 											<textarea class="form-control" id="message" name="message" rows="6" cols="30" placeholder="내용" required data-error="내용을 입력하세요."></textarea>
 										</div>
 										<button id="msgSubmit" type="submit" class="btn btn-primary">보내기</button>
+										<button id="msgReset" type="button" class="btn btn-primary" onclick="setEmailReset();">초기화</button>
 									</div>
 								</form>
 							</div>
@@ -464,6 +562,7 @@
 					<div class="content-header">
 						<h2>ARCHIVING</h2>
 					</div>
+					<p>개인활동</p>
 					<div class="content-inner">
 						<div class="social">
 							<a class="btn" title="youtube" onclick="window.open('https://www.youtube.com/@user-mp4hv6hg6q', 'youtube','width=#, height=#'); return false">

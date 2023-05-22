@@ -25,6 +25,7 @@ public class galleryController {
 	
 	@GetMapping("/gallery")
 	public String gallery(HttpServletRequest request, Model model) {
+		
 		try {
 			model.addAttribute("imgLists", lifeService.getLife());
 		} catch (Exception e) {
