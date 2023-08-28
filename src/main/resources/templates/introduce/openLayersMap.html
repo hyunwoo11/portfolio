@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+  <title>포토폴리오 맵</title>
+  
+  	<!-- 모바일 화면 지원 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+	<link rel="stylesheet" href="/assets/css/map/style.css">
+  
+	<link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	
+	<!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+	<script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
+	
+    <style>
+    
+		html, body {
+		  height: 100%;
+		  padding: 0;
+		  margin: 0;
+		}
+		
+		#map {
+		  /* 지도의 크기를 설정 */
+		  width: 100%;
+		  height: 100%;
+		}
+		
+		[id*=map] .location_state_cctv {
+			arrowHeight:0px;
+			background:rgba(0,0,0,0.5);
+			color:#fff;
+		}
+      
+    </style>
+  
+</head>
+<body class="layout-fixed layout-navbar-fixed mapService">
+<!-- Site wrapper -->
+<div class="wrapper">
+  <!-- Main Sidebar Container -->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <div id="map_area" class="map-area">
+      
+      	 <!-- 검색 영역 -->
+        <div class="map_search_layer alter">
+          <!-- 2023.06.23 floating_tab 클래스 추가 및 변경 -->
+          <div class="tab_wrap floating_tab">
+            <div id="tabRoadInfo">
+              <div class="area_inner">
+                <div class="form_wrap">
+                  <div class="row">
+                    <div class="form_box col-6">
+                      <select name="" id="select1" class="form_input mini">
+                        <option value="">광역시 / 도</option>
+                        <option value="">서울특별시</option>
+                        <option value="">경기도</option>
+                      </select>
+                    </div>
+                    <div class="form_box col-5">
+                      <select name="" id="select2" class="form_input mini">
+                        <option value="">시 / 군 / 구</option>
+                        <option value="">부천시</option>
+                        <option value="">수원시</option>
+                      </select>
+                    </div>
+                    <div class="form_box form_set">
+                      <input type="text" class="form_input mini" placeholder="출발지점, 위치 직접입력">
+                    </div>
+                    <div class="form_box form_set">
+                      <input type="text" class="form_input mini" placeholder="도착지점, 위치 직접입력">
+                    </div>
+                  </div><!-- //row -->
+                </div><!-- //form_wrap -->
+              </div><!-- //area_inner -->
+            </div><!-- //tab :: 도로변화정보 -->
+          </div><!-- //tab_wrap -->
+        </div><!-- //map_search_layer -->
+      
+      
+        <div class="form_box select-map-mode">
+          <select id="map_selectBox" name="" class="form_input mini" style="background: white;">
+            <option value="0">우리집</option>
+            <option value="1">고속도로 CCTV</option>
+            <option value="2">교통정보 공사</option>
+            <option value="3">레이어삭제</option>
+          </select>
+        </div>
+        
+        <div id="map" class="map"></div>
+      </div><!-- //map-wrap -->
+    </section>
+    <!-- //content -->
+  </div><!-- //content-wrapper -->
+</div><!-- //wrapper -->
+
+<script>
+    
+    //전역변수 모음
+    let _rn_Its_cctv_Layer; // 고속도로 cctv Layer
+    let _rn_Its_Layer; // its Layer
+    
+    let format = new ol.format.WKT();
+    
+    $(document).ready(function () {
+    	//우리집
+    	rn_my_homeLayer();
+	});	
+    
+    // Add a click event handler to the select box
+    $("#map_selectBox").on("change", function(e) {
+         const selectedValue = $("#map_selectBox").val();
+         
+         //Layers 삭제
+         //_map.removeLayer(_map);
+         //_map.removeLayer(_rn_Its_cctv_Layer);
+         //_map.removeLayer(_rn_Its_Layer);
+         
+         //0 우리집
+         //1  CCTV
+         //2 공사
+         //3 레이어삭제
+         
+		if(selectedValue == 1){
+			 rn_its_cctv_api();
+		}else if(selectedValue == 2){
+			 rn_its_api();
+		}else if(selectedValue == 3){
+			_map.removeLayer(_rn_Its_cctv_Layer);
+			_map.removeLayer(_rn_Its_Layer);
+		}
+     });
+    
+    //대한민국 영토 지도 레이어
+    var _map = new ol.Map({
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.XYZ({
+              attributions: [
+                ol.source.OSM.ATTRIBUTION,
+                'Tiles courtesy of ' +
+                '<a href="http://openstreetmap.org">' +
+                'OpenStreetMap' +
+                '</a>'
+              ],
+              url: 'https://tiles.osm.kr/hot/{z}/{x}/{y}.png'
+            })
+          })
+        ],
+        controls: ol.control.defaults({
+          attributionOptions: {
+            collapsed: false
+          }
+        }).extend([
+          new ol.control.ScaleLine()
+        ]),
+        target: 'map',
+        view: new ol.View({
+       	 center: ol.proj.fromLonLat([126.757122, 37.503763]),
+          zoom: 12
+        })
+      });
+
+      // Add vector layer + feature + icon style
+      var vectorLayer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+          features: [
+            new ol.Feature({
+              geometry: new ol.geom.Point(
+                ol.proj.fromLonLat([126.757122, 37.503763])
+              ),
+              name: 'Jangyeonri Village, the heart of Korea'
+            })
+          ]
+        }),
+        style: new ol.style.Style({
+        })
+      });
+      _map.addLayer(vectorLayer);
+      
+      //우리집 레이어
+      function rn_my_homeLayer(){
+    	  
+    	  var sampleFeatureList = [];
+    	  
+    		var result = [
+    			"POINT(126.7550 37.4841)", //현찌집
+    			"POINT(126.7544 37.4828)", //엄마집
+    			"POINT(126.7566 37.4833)", //PT샵
+    		];
+
+    		//sample 데이터 변환
+    		var features = [];
+    		for (var i = 0; i < result.length; i++) {
+    		    var coordinates = result[i].match(/\((.*?)\)/)[1].split(" ");
+    		    var feature = {
+    		        type: "Feature",
+    		        geometry: {
+    		            type: "Point",
+    		            coordinates: [parseFloat(coordinates[0]), parseFloat(coordinates[1])]
+    		        }
+    		    };
+    		    features.push(feature);
+    		}
+    		
+    		//실제api json 좌표 변환
+    		var geoJSONFormat = new ol.format.GeoJSON();
+    		for (let i = 0; i < features.length; i++) {
+    			
+    			var geoJSONData = features[i].geometry; // Assuming this contains a valid GeoJSON object
+    			
+    			// Use the 'geoJSONData' directly in the 'readFeature' method
+    			feature = geoJSONFormat.readFeature(geoJSONData, {
+    			  featureProjection: 'EPSG:5179'
+    			});
+    			
+    			var projectedCoordinates = ol.proj.fromLonLat(features[i].geometry.coordinates);
+    			feature.getGeometry().A[0] = projectedCoordinates[0];
+    			feature.getGeometry().A[1] = projectedCoordinates[1];
+
+    			//feature 정보
+    			if(i == 0){
+    				feature.set('adress', "우리집");
+    			}else if(i == 1){
+    				feature.set('adress', "송내 집");
+    			}else{
+    				feature.set('adress', "PT샵");
+    			}
+    			
+    			feature.set('id', i);
+    			feature.set('myHom', "myHom_id_" + i);
+    			
+    			sampleFeatureList.push(feature);
+    		}
+    		
+    		var itsVectorCCTVSource = new ol.source.Vector({
+    		  features: sampleFeatureList,
+    		});
+
+    		istVectorCCTVLayer = new ol.layer.Vector({
+    			source: itsVectorCCTVSource,
+    			maxResolution: 15, //zoom 15레벨 이상일떄 이미지 안보임  
+    			style: function(feature) {
+    				var style = new ol.style.Style({
+    					//마커 이미지
+    					image: new ol.style.Icon({
+    						opacity: 0.8, //투명도 1=100% 
+    						scale: 0.1, //크기 1=100%
+    						anchor: [0.5, 1],
+    						//marker 이미지, 해당 point를 marker로 변경한다.
+    						src: '/assets/img/hom.png',
+    						zIndex: 1, // Set the zIndex value as per your requirement
+    					}),
+    					text: new ol.style.Text({
+    						text: feature.get('adress'),
+    						font: '10px Arial',
+    						scale: 2,
+    						fill: new ol.style.Fill({ color: 'bleck' }),
+    						offsetX: 0, // x축으로 텍스트를 오프셋 조정할 경우에 사용합니다.
+    						offsetY: 10, // y축으로 텍스트를 오프셋 조정할 경우에 사용합니다.
+    						textAlign: 'center', // 텍스트의 정렬 방식을 설정합니다. 'center', 'left', 'right' 중 선택 가능합니다.
+    						textBaseline: 'top', // 텍스트의 베이스라인을 설정합니다. 'middle', 'top', 'bottom' 중 선택 가능합니다.
+    						zindex: 10,
+    					}),
+    					
+    				});
+    				return style;
+    			}
+    		});
+    		_map.addLayer(istVectorCCTVLayer);
+
+    		//라인 생성
+    		lineStringAdd(result, 1000);
+    		
+    	 	//좌표 Array 중심
+    	    let extent = sampleFeatureList[0].getGeometry().getExtent();
+    	    sampleFeatureList.slice(1).forEach(feature => {
+    	        ol.extent.extend(extent, feature.getGeometry().getExtent());
+    	    });
+    	    _map.getView().fit(extent);
+    	    
+    	 	// Set a specific zoom level
+    	    const targetZoomLevel = 14; // Replace with your desired zoom level
+    	    _map.getView().setZoom(targetZoomLevel);
+    	    
+      }
+   	  // Create Line
+      function lineStringAdd(sampleCoordinateList, intervalDistance) {
+          var sampleFeatureList = [];
+          var lineCoordinates = [];
+
+          for (var i = 0; i < sampleCoordinateList.length; i++) {
+              var coordinates = sampleCoordinateList[i].match(/\((.*?)\)/)[1].split(" ");
+              var feature = new ol.Feature({
+                  geometry: new ol.geom.Point([parseFloat(coordinates[0]), parseFloat(coordinates[1])]),
+              });
+              sampleFeatureList.push(feature);
+              lineCoordinates.push([parseFloat(coordinates[0]), parseFloat(coordinates[1])]);
+          }
+
+          var lineString = new ol.geom.LineString(lineCoordinates);
+          var lineFeature = new ol.Feature({
+              geometry: lineString,
+          });
+
+          var lineStyle = new ol.style.Style({
+              stroke: new ol.style.Stroke({
+                  color: 'blue',
+                  width: 2,
+              }),
+          });
+
+          lineFeature.setStyle(lineStyle);
+
+          var lineLayer = new ol.layer.Vector({
+              source: new ol.source.Vector({
+                  features: [lineFeature],
+              }),
+          });
+
+          _map.addLayer(lineLayer);
+
+          var lineLength = lineString.getLength();
+          var currentDistance = 0;
+
+          while (currentDistance < lineLength) {
+              var pointOnLine = lineString.getCoordinateAt(currentDistance / lineLength);
+              var textFeature = new ol.Feature({
+                  geometry: new ol.geom.Point(pointOnLine),
+              });
+              textFeature.setStyle(new ol.style.Style({
+                  text: new ol.style.Text({
+                      text: currentDistance.toFixed(2) + ' meters',
+                      font: '10px sans-serif',
+                      offsetY: -12,
+                      fill: new ol.style.Fill({ color: 'black' }),
+                  }),
+              }));
+              lineLayer.getSource().addFeature(textFeature);
+
+              currentDistance += intervalDistance;
+          }
+      }
+
+      
+      
+  	//라인생성
+//   	function lineStringAdd(sampleCoordinateList, intervalDistance) {
+// 	    let sampleFeatureList = [];
+	
+// 	    for (let i = 0; i < sampleCoordinateList.length; i++) {
+// 	        sampleFeatureList[i] = format.readFeature(sampleCoordinateList[i], {
+// 	            featureProjection: 'EPSG:3857'
+// 	        });
+	
+// 	        // 이미지 mp List 정보 담기
+// 	        sampleFeatureList[i].set('sampleId', "sample" + i);
+	
+// 	        // 배열 좌표 변경 4326 -> 3857
+// 	        sampleFeatureList[i].getGeometry().transform('EPSG:4326', 'EPSG:3857');
+// 	    }
+	
+// 	    // LineString 생성
+// 	    var lineStringCoords = sampleFeatureList.map(function(feature) {
+// 	        return feature.getGeometry().getCoordinates();
+// 	    });
+// 	    lineStringCoords.push(lineStringCoords[0]); // 시작점과 끝점을 연결
+	
+// 	    var lineString = new ol.geom.LineString(lineStringCoords);
+	
+// 	    var lineFeature = new ol.Feature({
+// 	        geometry: lineString
+// 	    });
+	
+// 	    var lineStyle = new ol.style.Style({
+// 	        stroke: new ol.style.Stroke({
+// 	            color: 'blue',
+// 	            width: 2
+// 	        })
+// 	    });
+	
+// 	    lineFeature.setStyle(lineStyle);
+	
+// 	    var lineLayer = new ol.layer.Vector({
+// 	        source: new ol.source.Vector({
+// 	            features: [lineFeature]
+// 	        })
+// 	    });
+	
+// 	    _map.addLayer(lineLayer);
+	
+// 	    // Calculate and display interval distance measurements
+// 	    var lineLength = lineString.getLength();
+// 	    var currentDistance = 0;
+	
+// 	    while (currentDistance < lineLength) {
+// 	        var pointOnLine = lineString.getCoordinateAt(currentDistance / lineLength);
+// 	        var textFeature = new ol.Feature({
+// 	            geometry: new ol.geom.Point(pointOnLine)
+// 	        });
+// 	        textFeature.setStyle(new ol.style.Style({
+// 	            text: new ol.style.Text({
+// 	                text: currentDistance.toFixed(2) + ' meters',
+// 	                font: '10px sans-serif',
+// 	                offsetY: -12,
+// 	                fill: new ol.style.Fill({ color: 'black' })
+// 	            })
+// 	        }));
+// 	        lineLayer.getSource().addFeature(textFeature);
+	
+// 	        currentDistance += intervalDistance;
+// 	    }
+// 	}
+
+
+      
+      //ITS API 정보
+      function rn_its_api() {
+    		
+    		var featureList = [];
+    		
+    		const extent = _map.getView().calculateExtent();
+    		
+    		// 변환하려는 대상 프로젝션 코드가 제공됩니다(예: LonLat의 경우 'EPSG:4326').
+    		var targetProjection = 'EPSG:4326';
+    		
+    		// 범위를 대상 투영으로 변환
+    		var transformedExtent = ol.proj.transformExtent(extent, 'EPSG:3857', targetProjection);
+    		
+    		// LonLat 형식의 개별 변수에 값을 할당합니다.
+    		var originalMinX = transformedExtent[0];
+    		var originalMinY = transformedExtent[1];
+    		var originalMaxX = transformedExtent[2];
+    		var originalMaxY = transformedExtent[3];
+    		
+    		//its api 좌표셋팅
+    		var params = {
+    			type:"all",
+    			eventType:"all",
+    			minX: originalMinX,
+    			maxX: originalMaxX,
+    			minY: originalMinY,
+    			maxY: originalMaxY,
+    			getType:"json",
+    		};
+    		
+    		$.ajax({
+    		  url: '/api/rn-its',
+    		  type: 'GET',
+    		  data: params,
+    		  //async: false,
+    		  beforeSend : function(xhr){
+    			xhr.setRequestHeader("content-type" , "application/json; charset=UTF-8");
+    		  },
+    		  success: function(result) {
+    		    if (!result) {
+    		      return;
+    		    }else if(result.length == 0){
+    		    	alert("교통정보(ITS) 조회된 데이터가 없습니다");
+    				$("#itsLayer").removeClass('on');
+    				_map.removeLayer(istVectorLayer);
+    		    	return;
+    		    } else {
+    		    	var geoJSONFormat = new ol.format.GeoJSON();
+    		    	for (var i = 0; i < result.length; i++) {
+    		    		
+    		    		var geoJSONData = result[i].geometry; // Assuming this contains a valid GeoJSON object
+    		    		// Use the 'geoJSONData' directly in the 'readFeature' method
+    		    		var feature = geoJSONFormat.readFeature(geoJSONData, {
+    		    		  featureProjection: 'EPSG:5179'
+    		    		});
+    		    		
+    		    		var projectedCoordinates = ol.proj.fromLonLat(result[i].geometry.coordinates);
+    		    		feature.getGeometry().A[0] = projectedCoordinates[0];
+    		    		feature.getGeometry().A[1] = projectedCoordinates[1];
+    			    	  
+    			    	  //let center = [geoJSON.coordinates[0], geoJSON.coordinates[1]]; // 이동해야할 좌표
+    		    		  //_map.getView().setCenter(center);
+
+    					//feature 정보
+    					feature.set('endDate',result[i].properties.endDate);
+    					feature.set('eventDetailType',result[i].properties.eventDetailType);
+    					feature.set('eventType', result[i].properties.eventType);
+    					feature.set('lanesBlockType',result[i].properties.lanesBlockType);
+    					feature.set('lanesBlocked',result[i].properties.lanesBlocked);
+    					feature.set('linkId',result[i].properties.linkId);
+    					feature.set('message',result[i].properties.message);
+    					feature.set('roadDrcType',result[i].properties.roadDrcType);
+    					feature.set('roadName',result[i].properties.roadName);
+    					feature.set('startDate',result[i].properties.startDate);
+    					feature.set('type', result[i].properties.type);
+    					feature.set('tyroadNope',result[i].properties.tyroadNope);
+    					feature.set('itsLayle', "itsLayle"+i);
+    					
+    					//이벤트 유형 타입 null 아닌경우
+    					if(result[i].properties.eventDetailType != "null"){
+    						let resultTileNm = result[i].properties.roadName =="null" ? "기타" : result[i].properties.roadName;
+    						resultTileNm += "(" + result[i].properties.eventDetailType + ")";
+    						feature.set('resultTileNm', resultTileNm);
+    					}else {
+    						//이벤트 유형 타입 null 일경우
+    						if(result[i].properties.message != null){
+    							//console.log("이벤트 유형 타입 null 일경우 ==> " + result[i].properties.message.substring(1,3));
+    							let resultTileNm = result[i].properties.roadName =="null" ? "기타" : result[i].properties.roadName;
+    							resultTileNm += "(" + result[i].properties.message.substring(1,3) + ")";
+    							feature.set('resultTileNm', resultTileNm);
+    						}else{
+    							//console.log("둘다 없을경우 => 기타");
+    							let resultTileNm = result[i].properties.roadName =="null" ? "기타" : result[i].properties.roadName;
+    							resultTileNm += "(기타)";
+    							feature.set('resultTileNm', resultTileNm);
+    						}
+    					}
+    					featureList.push(feature);
+    		    	}
+    		    	
+    		    	var itsVectorSource = new ol.source.Vector({
+    	    			  features: featureList,
+    	    			});
+
+    		    	_rn_Its_Layer = new ol.layer.Vector({
+    	    				source: itsVectorSource,
+    	    				//maxResolution: 15,
+    	    				style: function(feature) {
+    	    					var style = new ol.style.Style({
+    	    						//마커 이미지
+    	    						image: new ol.style.Icon({
+    	    							opacity: 0.8, //투명도 1=100% 
+    	    							scale: 0.70, //크기 1=100%
+    	    							//anchor: [0.5, 1],
+    	    							//marker 이미지, 해당 point를 marker로 변경한다.
+    	    							src: '/assets/img/its.png', 
+    	    							zIndex: 1, // Set the zIndex value as per your requirement
+    	    						}),
+    	    						text: new ol.style.Text({
+    	    							text: feature.get('resultTileNm'),
+    	    							font: '10px Arial',
+    	    							scale: 1,
+    	    							fill: new ol.style.Fill({ color: 'bleck' }),
+    	    							offsetX: 0, // x축으로 텍스트를 오프셋 조정할 경우에 사용합니다.
+    	    							offsetY: 10, // y축으로 텍스트를 오프셋 조정할 경우에 사용합니다.
+    	    							textAlign: 'center', // 텍스트의 정렬 방식을 설정합니다. 'center', 'left', 'right' 중 선택 가능합니다.
+    	    							textBaseline: 'top', // 텍스트의 베이스라인을 설정합니다. 'middle', 'top', 'bottom' 중 선택 가능합니다.
+    	    							zindex: 10,
+    	    						}),
+    	    						
+    	    					});
+    	    					return style;
+    	    				}
+    	    			});
+   	    			_map.addLayer(_rn_Its_Layer);
+    		    }
+    		  },
+    		  complete: function() {
+    		  }
+    		});
+    	}
+
+      /*고속도로 its CCTV api 레이어*/
+      function rn_its_cctv_api() {
+      	
+      	var featureList = [];
+      	
+      	const extent = _map.getView().calculateExtent();
+      	
+      	// 변환하려는 대상 프로젝션 코드가 제공됩니다(예: LonLat의 경우 'EPSG:4326').
+      	var targetProjection = 'EPSG:4326';
+      	
+      	// 범위를 대상 투영으로 변환
+      	var transformedExtent = ol.proj.transformExtent(extent, 'EPSG:3857', targetProjection);
+      	
+      	// LonLat 형식의 개별 변수에 값을 할당합니다.
+      	var originalMinX = transformedExtent[0];
+      	var originalMinY = transformedExtent[1];
+      	var originalMaxX = transformedExtent[2];
+      	var originalMaxY = transformedExtent[3];
+      	
+      	//its cctv api 좌표셋팅
+      	var params = {
+      		type:"ex",
+      		cctvType:"2",
+      		eventType:"all",
+      		minX: originalMinX,
+      		maxX: originalMaxX,
+      		minY: originalMinY,
+      		maxY: originalMaxY,
+      		getType:"json",
+      	};
+      	
+      	$.ajax({
+      	  url: '/api/rn-its-cctv',
+      	  type: 'GET',
+      	  data: params,
+      	  //async: false,
+      	  beforeSend : function(xhr){
+      		xhr.setRequestHeader("content-type" , "application/json; charset=UTF-8");
+      	  },
+      	  success: function(result) {
+      	    if (!result) {
+      	      return;
+      	    }else if(result.length == 0){
+      	    	alert("CCTV(ITS) 조회된 데이터가 없습니다");
+      			$("#itsCCTVLayer").removeClass('on');
+      			_map.removeLayer(istVectorCCTVLayer);
+      	    	return;
+      	    } else {
+      	    	var geoJSONFormat = new ol.format.GeoJSON();
+      	    	for (var i = 0; i < result.length; i++) {
+      	    		
+      	    		var geoJSONData = result[i].geometry; // Assuming this contains a valid GeoJSON object
+      	    		// Use the 'geoJSONData' directly in the 'readFeature' method
+      	    		var feature = geoJSONFormat.readFeature(geoJSONData, {
+      	    		  featureProjection: 'EPSG:5179'
+      	    		});
+      	    		
+      	    		var projectedCoordinates = ol.proj.fromLonLat(result[i].geometry.coordinates);
+      	    		feature.getGeometry().A[0] = projectedCoordinates[0];
+      	    		feature.getGeometry().A[1] = projectedCoordinates[1];
+      				
+      				//feature 정보
+      				feature.set('cctvname',result[i].properties.cctvname);
+      				feature.set('cctvurl',result[i].properties.cctvurl);
+      				feature.set('rnItscctvLayer', "rn-its-cctv-id"+i);
+      				featureList.push(feature);
+      	    	}
+      	    	
+      	    	var itsVectorCCTVSource = new ol.source.Vector({
+            		  features: featureList,
+            		});
+
+      	    	_rn_Its_cctv_Layer = new ol.layer.Vector({
+            			source: itsVectorCCTVSource,
+            			//maxResolution: 15,
+            			style: function(feature) {
+            				var style = new ol.style.Style({
+            					//마커 이미지
+            					image: new ol.style.Icon({
+            						opacity: 0.8, //투명도 1=100% 
+            						scale: 0.70, //크기 1=100%
+            						//anchor: [0.5, 1],
+            						//marker 이미지, 해당 point를 marker로 변경한다.
+            						src: '/assets/img/its-cctv.png',
+            						zIndex: 1, // Set the zIndex value as per your requirement
+            					}),
+            					text: new ol.style.Text({
+            						text: feature.get('cctvname'),
+            						font: '10px Arial',
+            						scale: 1,
+            						fill: new ol.style.Fill({ color: 'bleck' }),
+            						offsetX: 0, // x축으로 텍스트를 오프셋 조정할 경우에 사용합니다.
+            						offsetY: 10, // y축으로 텍스트를 오프셋 조정할 경우에 사용합니다.
+            						textAlign: 'center', // 텍스트의 정렬 방식을 설정합니다. 'center', 'left', 'right' 중 선택 가능합니다.
+            						textBaseline: 'top', // 텍스트의 베이스라인을 설정합니다. 'middle', 'top', 'bottom' 중 선택 가능합니다.
+            						zindex: 10,
+            					}),
+            					
+            				});
+            				return style;
+            			}
+            		});
+            		_map.addLayer(_rn_Its_cctv_Layer);
+            		
+            	 	//좌표 Array 중심
+            	    let extent = featureList[0].getGeometry().getExtent();
+            	    featureList.slice(1).forEach(feature => {
+            	        ol.extent.extend(extent, feature.getGeometry().getExtent());
+            	    });
+           	    _map.getView().fit(extent);
+      	    }
+      	  },
+      	  complete: function() {
+      		rn_its_cctv_api2();
+      	  }
+      	});
+      }
+      
+      /* its CCTV */
+      let itsCctvTooltip = document.createElement('div');
+      itsCctvTooltip.style.transform = 'scale(0.6)';
+
+      let itsContentCCTV = document.createElement('div');
+      itsContentCCTV.className = '';
+      itsContentCCTV.setAttribute('role', 'button');
+      itsContentCCTV.textContent = '';
+      itsCctvTooltip.appendChild(itsContentCCTV);
+      document.body.appendChild(itsCctvTooltip);
+
+      let innerHtml = '';
+      innerHtml += '<div id="mouseoverDiv" class="location_state_cctv">';
+      innerHtml += '<button type="button" class="btn btn_icon_close float-right" data-bs-dismiss="modal" style="color:white" onclick="hideItsCCTVOverlay()">dadasdasdasd</button>';
+      innerHtml += '<div class="marker_title">';
+      innerHtml += '</div><!-- //marker_title -->';
+      innerHtml += '<dl class="marker_info">';
+      innerHtml += '<dd>';
+      innerHtml += '<video id="itscctvsrc" src="" style="width:300px;height:200px" controls></video>'
+      innerHtml += '</dd>';
+      innerHtml += '</dl><!-- //marker_info -->';
+      innerHtml += '</div><!-- //location_state -->';
+      itsContentCCTV.innerHTML = innerHtml;
+
+      //its CCTV tooltip
+      var itsCCTVOverlay = new ol.Overlay({
+        element: itsContentCCTV,
+        stopEvent: true,
+        positioning:'center-center'
+      });
+      _map.addOverlay(itsCCTVOverlay);
+      
+      _map.addOverlay(itsCCTVOverlay);
+      
+	//its cctv api(작업중)
+	_map.on('singleclick', function (event) {
+		
+		//변화정보 레이어 feature 체크
+		const feature = _map.forEachFeatureAtPixel(event.pixel, function(feature) {
+		    return feature;
+		}, {
+		    layerFilter: function(layer) {
+		        return layer === _rn_Its_cctv_Layer || layer === _rn_Its_cctv_Layer2;
+		    },
+		});
+		
+		if (feature) {
+			const center = ol.extent.getCenter(feature.getGeometry().getExtent());
+			showItsCCTVOverlay(center);
+			showMouseFeatureTooltipCCTV(feature);
+		}
+		
+	});
+	
+	//its CCTV Tooltip
+	function showMouseFeatureTooltipCCTV(feature) {
+		
+		if (!itsCctvTooltip) return;
+	
+	    var videoElement = document.getElementById("itscctvsrc");
+	
+	    // Set the new source and reload the video
+		videoElement.src = feature.N.cctvurl;
+		videoElement.play();
+	}
+	
+	//its CCTV tootip show
+	function showItsCCTVOverlay(coordinate) {
+	  if (coordinate) {
+	    itsCCTVOverlay.setPosition(coordinate);
+	    itsCCTVOverlay.element.style.display = 'block';
+	  }
+	}
+	
+	//its CCTV  tootip hide
+	function hideItsCCTVOverlay() {
+	    itsCCTVOverlay.element.style.display = 'none';
+	}
+	
+    </script>
+
+</html>

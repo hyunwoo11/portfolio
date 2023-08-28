@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- CSS Libraries -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+<link href="/assets/lib/slick/slick.css" rel="stylesheet">
+<link href="/assets/lib/slick/slick-theme.css" rel="stylesheet">
+<link href="/assets/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+<link href="/assets/css/style.css" rel="stylesheet">
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+<!-- jQuery -->
+<script type="text/javascript" src="/assets/js/jquery/jquery.fileDownload.js"></script>
+
+
+
+</head>
+<body>
+
+<!-- http://localhost/jQuerySyntax -->
+
+<div>
+	<label><h1>jQuery 문법 정리</h1></label>
+</div>
+
+<div>
+	<label><h2>jQuery click 이벤트 예제</h2></label>
+	
+	<ul>
+		<li>
+			<button type="button" id="btnEv1"> id jQuery 호출</button>
+		</li>
+		<li> 
+			<button type="button" onclick="btnEv1Funtion();">버튼 클릭시 function 호출</button>
+		</li>
+	</ul>
+	
+	<!-- ul li 클릭  -->
+	<label><h2>btn li click 이벤트</h2></label>
+	<ul class="list">
+		<li id="coffee" name="coffee">coffee</li>
+		<li id="tea" name="tea">tea</li>
+		<li id="milk" name="milk">milk</li>
+		<li id="green tea" name="green tea">green tea</li>
+	</ul>
+</div>
+
+<div>
+	<label><h2>jQuery window.Open 문법 정리</h2></label>
+	<ul>
+		<li id="lhw" name="lhwNm" data="현찌포트폴리오" onclick="windowOpen($(this));"><a href="";>현찌 포트폴리오(fun)</a></li>
+		<li id="google"><a href="";>구글</a></li>
+		<li id= "naver" >네이버</li>
+		<li><a href="https://www.naver.com/">네이버 바로 이동</a></li>
+	</ul>
+</div>
+
+<div class="item_box_wrapper" id="itemBoxWrapper">
+	<label><h2>id like 사용하는 법</h2></label>
+	<div class="item_box_wrap">
+		<ul class="item_box">
+			<li><a href="javascript:;" id="coffeeToggleBtn" value="apt" class="selected_box">coffee</a></li>
+			<li><a href="javascript:;" id="teaToggleBtn" value="rwhsMlpxhou" class="">tea</a></li>
+			<li><a href="javascript:;" id="milkToggleBtn" value="ofctl" class="">milk</a></li>
+		</ul>
+	</div>
+</div>
+
+<div>
+	<label><h2>jQuery 현재 날짜 가져오기</h2></label>
+	<div id="footer_today"></div>
+</div>
+
+
+<script type="text/javascript">
+
+//jq 제일 먼저 실행
+// ES5버전
+$(document).ready(function(){
+	console.log("page lod ES5 버전.");
+	today();
+	setInterval2();
+// 	setTimeout3();
+});
+
+// ES6 버전
+$(document).ready(() => {
+	console.log("page lod ES6 버전.");
+});
+
+/* ================================================== setInterval 시작=================================== */
+function setInterval1(){
+	time = setInterval(function() {
+		console.log("setTimeout 1초 후에 계속 실행됩니다.");
+		clearInterval(time);
+	}, 1000);
+};
+
+function setInterval2(){
+	console.log("setTimeout 1초 후에  계속 실행됩니다.");
+	time = setInterval(function() {
+		//btn list for문
+		$(".list li").each(function(index, item){
+			if ($(item).attr("id")) {
+				console.log($(item).attr("id"));
+			}
+			
+			//for문 다 돌고 멈추기
+			if (index === $(".list li").length - 1) {
+				clearInterval(time);
+			}
+		});
+	}, 1000);
+};
+/* ================================================== setInterval 끝=================================== */
+
+// ==================================================== setTimeout 시작 ========================================
+function setTimeout1(){
+	setTimeout(function(){
+		console.log("setTimeout 1초 뒤에 실행됩니다.");
+	}, 1000);
+}
+
+
+function setTimeout2(){
+	setTimeout(function(){
+		console.log("setTimeout 1초 뒤에 실행됩니다.");
+		// btn list for문
+		$(".list li").each(function(){
+			var id = $(this).attr("id");
+			if($(this).attr("id")){
+				console.log($(this).attr("id"));
+			}
+		});
+	}, 1000);
+}
+
+function setTimeout3(){
+	setTimeout(function(){
+		console.log("setTimeout 1초 뒤에 실행됩니다.");
+		$('.list li').each(function (index, item) {
+		// 인덱스는 말 그대로 인덱스 , item 은 해당 선택자인 객체를 나타냅니다.
+		var id = item.id;//방법1
+		console.log("id = " + id + " / " + $(item).addClass('li_0' + index));
+		
+		// item 과 this는 같아서 일반적으로 this를 많이 사용합니다.
+		var id2 = $(this).attr("id"); //방법2
+		console.log("id2 = " + id2 + " / "+ $(this).addClass('li_0' + index));
+		});
+	}, 1000);
+}
+
+// ==================================================== setTimeout 끝========================================
+
+//====================================================== JS 버튼 이벤트 시작  ====================================================== 
+//※ solution 1
+$("#btnEv1").click(function() {
+	// # id
+	// . class
+	//$(this).hide(); 숨기기
+	//$(this).show(); 보이기
+	console.log("버튼 id로 click jQuery 문법");
+});
+
+//※ solution 2
+function btnEv1Funtion (){
+	console.log(" btn onclick jQuery 문법");
+}
+
+//※ solution 1
+//버튼 목록 클릭(ul -> li) 이벤트
+$(".list").on("click", "li", function (e) {
+	//버튼 목록 속성값 뺴기
+	var id = $(this).attr('id');
+	var nm = $(this).attr('name');
+	var test = $(this).attr('test');
+	//li 전체 길이
+	var length = $("ul.list").children().length;
+	//li 선택한 요소 길이
+	var len = $("ul.list").children().index(this);
+	console.log("solution 1 =" + "id = " + id +" / "+ "nm = "+ nm + " / " + "현재 클릭 legth = " + length + "선택한 요소 길이 = " + len);
+});
+
+//※ solution 2
+$(".list li").on("click", function() {
+	//버튼 목록 속성값 뺴기
+	var id = $(this).attr('id');
+	var nm = $(this).attr('name');
+	var test = $(this).attr('test');
+	//li 전체 길이
+	var length = $("ul.list").children().length;
+	//li 선택한 요소 길이
+	var len = $("ul.list").children().index(this);
+	console.log("solution 2 =" + "id = " + id +" / "+ "nm = "+ nm + " / " + "현재 클릭 legth = " + length + "선택한 요소 길이 = " + len);
+});
+//====================================================== JS 버튼 이벤트 끝  ====================================================== 
+
+
+/* ====================================================== window.open 시작 ============================================================================= */
+
+//※ solution 1
+function windowOpen(thiss){
+	var thiss = thiss;
+	var name = thiss.attr('name');
+	var data = thiss.attr('data');
+	
+	var param = '?';
+	if (data != null) {
+		param = param + '1=' + data;
+	}
+	var url = 'https://www.lhyportfolio.com/';
+	var windowOpen;
+	windowOpen = window;
+	windowOpen.open(url, 'windowOpen', 'scrollbars=no,toolbar=no,location=no,directories=no,status=no');
+// 	windowOpen.open(url + param, 'mguidedictionary_window', 'scrollbars=no,toolbar=no,location=no,directories=no,status=no');
+	windowOpen.focus();
+}
+
+//※ solution 2
+$("#google, #naver").on("click", function() {
+	var id = $(this).attr('id');
+	var data = id;
+	var param = '?';
+	if (data != null) {
+		param = param + '1=' + data;
+	}
+	var url = (id == 'google' ? 'https://www.google.com/' : 'https://www.naver.com/');  //삼항연산자
+	var windowOpen;
+	windowOpen = window;
+	windowOpen.open(url, 'windowOpen', 'scrollbars=no,toolbar=no,location=no,directories=no,status=no');
+// 	windowOpen.open(url + param, 'mguidedictionary_window', 'scrollbars=no,toolbar=no,location=no,directories=no,status=no');
+	windowOpen.focus();
+});
+/* ====================================================== window.open 끝 ============================================================================= */
+
+
+
+
+/* ================================================================= 버튼 종류 유형 시작 =================================================================*/
+//$("div[id!='a']")// div 에 id가 a가 아닌 태그들 선택
+//$("div[id^='a']")// div 에 id가 a로 시작하는 태그들 선택
+//$("div[id$='a']")// div 에 id가 a로 끝나는 태그들 선택
+//$("div[id*='a']")// div 에 id가 a가 포함된 태그들 선택
+
+//div 에 id가 a로 끝나는 태그들 선택
+$("a[id$='ToggleBtn']").on("click", function () {
+	//대상유형 버튼 속성값 셋팅
+	var id = $(this).attr('id');
+	var typeName = $(this).text();
+	console.log("id = " + id + " / " + "typeName = " + typeName);
+});
+/* ================================================================= 버튼 종류 유형 끝 =================================================================*/
+
+
+
+
+/* ================================================================== 체크박스 유형 시작 ================================================================== */
+function checkBox(){
+	
+}
+/* ================================================================== 체크박스 유형 끝 ================================================================== */
+
+
+
+/* ================================================================== 현재 날짜 구하기 시작 ================================================================== */
+function today(){
+	var now = new Date();
+	var year= now.getFullYear();
+	var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
+	var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
+	var lastDay = new Date(year, mon, 0).getDate();
+	var chan_val = year + '-' + mon + '-' + day;
+	
+//	var today = new Date();
+//	var year = today.getFullYear();
+//	var month = ('0' + (today.getMonth() + 1)).slice(-2);
+//	var day = ('0' + today.getDate()).slice(-2);
+//	var dateString = year + '-' + month  + '-' + day;
+	$("#footer_today").append("Last update: " + chan_val);
+}
+/* ================================================================== 현재 날짜 구하기 끝 ================================================================== */
+//페이지 로딩
+$("#btnLoad").on("click", function() {
+  $("#text").load("/rest/1/pages/244"); // 경로 : 입력 (파일경로 , controller경로)
+});
+
+
+//ajax 사용방법
+$.ajax({
+   url: 'url', // controller url
+   type: 'GET/POST/PUT/DELETE',
+   data: {data},
+   async:false, : true : 동기 / false : 비동기
+   success: function(result) {
+      if(!result) {
+         window.error('code search error!');
+         return;
+      }
+      if(result.code < 0) {
+         window.error(result.message);
+      } else if(!result.data) {
+         window.error('code search error!');
+      } else {
+         var codeList = result.data;
+         _select.empty();
+         setCom024SelectData(_select, codeList);
+      }
+   },
+   error: function(request, status, error ) {
+      if(request.responseJSON && request.responseJSON.message) {            
+         console.log('message:'+request.responseJSON.message+'\r\nURL:'+this.url);
+      } else {         
+         console.log('status:'+request.status+'\r\nURL:'+this.url);
+      }
+   }
+});
+
+선택된 요소의 마지막에 새로운 요소나 콘텐츠를 추가한다.
+.append()   ;
+
+선택한 요소의 내용을 지웁니다. 내용만 지울 뿐 태그는 남아있다는 것에 주의합니다.
+.empty();
+
+태그를 포함한 요소 전체를 제거할 떄 사용한다.
+.remove();
+
+================= find() 함수와 children() 함수의 차이점 =====================
+함수는 선택된 태그(객체)의 모든 자식태그들을 검색해서 찾는 것
+find();
+함수는 선택된 태그(객체)의 바로 1단계 아래 자식을 찾는것.
+children();
+
+ex) jq 문법
+$("ul.level-1").find("li");
+$("ul.level-1").children("li");
+
+
+
+===============check box ===================================
+checkBox foreach 버튼을 클릭하면 다음의 함수가 실행 됩니다.
+
+$("#checkForeach").click(function(){
+
+        //요소 찾아서 for문돌리기
+
+        $("input:checkbox[id='chname']").each(function(index,element){
+
+            alert($(this).val());
+
+        });
+
+    });
+
+
+//체크박스 NAME 체크 했을경우
+$("input:checkbox[name='chname']").click(function(){
+        alert($(this).val());
+    });
+
+
+===========================================================
+선택한 요소에 클래스(Class) 값을 넣었다 뺐다 할 수 있습니다.
+.toggleClass();
+
+//클래스 여부를 확인하는 경우
+.hasClass()
+
+ex) 활용 예제
+  $('.like_btn').click(function () {
+     $(this).toggleClass('on');
+        if ($(this).hasClass("on")) {
+            $(this).parent().addclass('active')
+        } else if (!$(this).hasClass("on")) {
+             $(this).parent().removeclass('active')
+        }
+    });
+=========================================================
+
+
+</script>
+
+</body>
+</html>
