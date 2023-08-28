@@ -73,6 +73,12 @@ function today(){
 	$("#footer_today").append("Last update: " + dateString);
 }
 
+//windowOpenMap
+function openMapInNewWindow() {
+    const mapWindow = window.open('/myphotos', 'tistory', 'width=' + screen.availWidth + ', height=' + screen.availHeight);
+    mapWindow.moveTo(0, 0);
+}
+
 
 /*
 const personalLife = (type) => {

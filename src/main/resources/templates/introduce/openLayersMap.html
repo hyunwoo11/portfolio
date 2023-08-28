@@ -295,132 +295,132 @@
     	    
       }
    	  // Create Line
-      function lineStringAdd(sampleCoordinateList, intervalDistance) {
-          var sampleFeatureList = [];
-          var lineCoordinates = [];
+//       function lineStringAdd(sampleCoordinateList, intervalDistance) {
+//           var sampleFeatureList = [];
+//           var lineCoordinates = [];
 
-          for (var i = 0; i < sampleCoordinateList.length; i++) {
-              var coordinates = sampleCoordinateList[i].match(/\((.*?)\)/)[1].split(" ");
-              var feature = new ol.Feature({
-                  geometry: new ol.geom.Point([parseFloat(coordinates[0]), parseFloat(coordinates[1])]),
-              });
-              sampleFeatureList.push(feature);
-              lineCoordinates.push([parseFloat(coordinates[0]), parseFloat(coordinates[1])]);
-          }
+//           for (var i = 0; i < sampleCoordinateList.length; i++) {
+//               var coordinates = sampleCoordinateList[i].match(/\((.*?)\)/)[1].split(" ");
+//               var feature = new ol.Feature({
+//                   geometry: new ol.geom.Point([parseFloat(coordinates[0]), parseFloat(coordinates[1])]),
+//               });
+//               sampleFeatureList.push(feature);
+//               lineCoordinates.push([parseFloat(coordinates[0]), parseFloat(coordinates[1])]);
+//           }
 
-          var lineString = new ol.geom.LineString(lineCoordinates);
-          var lineFeature = new ol.Feature({
-              geometry: lineString,
-          });
+//           var lineString = new ol.geom.LineString(lineCoordinates);
+//           var lineFeature = new ol.Feature({
+//               geometry: lineString,
+//           });
 
-          var lineStyle = new ol.style.Style({
-              stroke: new ol.style.Stroke({
-                  color: 'blue',
-                  width: 2,
-              }),
-          });
+//           var lineStyle = new ol.style.Style({
+//               stroke: new ol.style.Stroke({
+//                   color: 'blue',
+//                   width: 2,
+//               }),
+//           });
 
-          lineFeature.setStyle(lineStyle);
+//           lineFeature.setStyle(lineStyle);
 
-          var lineLayer = new ol.layer.Vector({
-              source: new ol.source.Vector({
-                  features: [lineFeature],
-              }),
-          });
+//           var lineLayer = new ol.layer.Vector({
+//               source: new ol.source.Vector({
+//                   features: [lineFeature],
+//               }),
+//           });
 
-          _map.addLayer(lineLayer);
+//           _map.addLayer(lineLayer);
 
-          var lineLength = lineString.getLength();
-          var currentDistance = 0;
+//           var lineLength = lineString.getLength();
+//           var currentDistance = 0;
 
-          while (currentDistance < lineLength) {
-              var pointOnLine = lineString.getCoordinateAt(currentDistance / lineLength);
-              var textFeature = new ol.Feature({
-                  geometry: new ol.geom.Point(pointOnLine),
-              });
-              textFeature.setStyle(new ol.style.Style({
-                  text: new ol.style.Text({
-                      text: currentDistance.toFixed(2) + ' meters',
-                      font: '10px sans-serif',
-                      offsetY: -12,
-                      fill: new ol.style.Fill({ color: 'black' }),
-                  }),
-              }));
-              lineLayer.getSource().addFeature(textFeature);
+//           while (currentDistance < lineLength) {
+//               var pointOnLine = lineString.getCoordinateAt(currentDistance / lineLength);
+//               var textFeature = new ol.Feature({
+//                   geometry: new ol.geom.Point(pointOnLine),
+//               });
+//               textFeature.setStyle(new ol.style.Style({
+//                   text: new ol.style.Text({
+//                       text: currentDistance.toFixed(2) + ' meters',
+//                       font: '10px sans-serif',
+//                       offsetY: -12,
+//                       fill: new ol.style.Fill({ color: 'black' }),
+//                   }),
+//               }));
+//               lineLayer.getSource().addFeature(textFeature);
 
-              currentDistance += intervalDistance;
-          }
-      }
+//               currentDistance += intervalDistance;
+//           }
+//       }
 
       
       
   	//라인생성
-//   	function lineStringAdd(sampleCoordinateList, intervalDistance) {
-// 	    let sampleFeatureList = [];
+  	function lineStringAdd(sampleCoordinateList, intervalDistance) {
+	    let sampleFeatureList = [];
 	
-// 	    for (let i = 0; i < sampleCoordinateList.length; i++) {
-// 	        sampleFeatureList[i] = format.readFeature(sampleCoordinateList[i], {
-// 	            featureProjection: 'EPSG:3857'
-// 	        });
+	    for (let i = 0; i < sampleCoordinateList.length; i++) {
+	        sampleFeatureList[i] = format.readFeature(sampleCoordinateList[i], {
+	            featureProjection: 'EPSG:3857'
+	        });
 	
-// 	        // 이미지 mp List 정보 담기
-// 	        sampleFeatureList[i].set('sampleId', "sample" + i);
+	        // 이미지 mp List 정보 담기
+	        sampleFeatureList[i].set('sampleId', "sample" + i);
 	
-// 	        // 배열 좌표 변경 4326 -> 3857
-// 	        sampleFeatureList[i].getGeometry().transform('EPSG:4326', 'EPSG:3857');
-// 	    }
+	        // 배열 좌표 변경 4326 -> 3857
+	        sampleFeatureList[i].getGeometry().transform('EPSG:4326', 'EPSG:3857');
+	    }
 	
-// 	    // LineString 생성
-// 	    var lineStringCoords = sampleFeatureList.map(function(feature) {
-// 	        return feature.getGeometry().getCoordinates();
-// 	    });
-// 	    lineStringCoords.push(lineStringCoords[0]); // 시작점과 끝점을 연결
+	    // LineString 생성
+	    var lineStringCoords = sampleFeatureList.map(function(feature) {
+	        return feature.getGeometry().getCoordinates();
+	    });
+	    lineStringCoords.push(lineStringCoords[0]); // 시작점과 끝점을 연결
 	
-// 	    var lineString = new ol.geom.LineString(lineStringCoords);
+	    var lineString = new ol.geom.LineString(lineStringCoords);
 	
-// 	    var lineFeature = new ol.Feature({
-// 	        geometry: lineString
-// 	    });
+	    var lineFeature = new ol.Feature({
+	        geometry: lineString
+	    });
 	
-// 	    var lineStyle = new ol.style.Style({
-// 	        stroke: new ol.style.Stroke({
-// 	            color: 'blue',
-// 	            width: 2
-// 	        })
-// 	    });
+	    var lineStyle = new ol.style.Style({
+	        stroke: new ol.style.Stroke({
+	            color: 'blue',
+	            width: 2
+	        })
+	    });
 	
-// 	    lineFeature.setStyle(lineStyle);
+	    lineFeature.setStyle(lineStyle);
 	
-// 	    var lineLayer = new ol.layer.Vector({
-// 	        source: new ol.source.Vector({
-// 	            features: [lineFeature]
-// 	        })
-// 	    });
+	    var lineLayer = new ol.layer.Vector({
+	        source: new ol.source.Vector({
+	            features: [lineFeature]
+	        })
+	    });
 	
-// 	    _map.addLayer(lineLayer);
+	    _map.addLayer(lineLayer);
 	
-// 	    // Calculate and display interval distance measurements
-// 	    var lineLength = lineString.getLength();
-// 	    var currentDistance = 0;
+	    // Calculate and display interval distance measurements
+	    var lineLength = lineString.getLength();
+	    var currentDistance = 0;
 	
-// 	    while (currentDistance < lineLength) {
-// 	        var pointOnLine = lineString.getCoordinateAt(currentDistance / lineLength);
-// 	        var textFeature = new ol.Feature({
-// 	            geometry: new ol.geom.Point(pointOnLine)
-// 	        });
-// 	        textFeature.setStyle(new ol.style.Style({
-// 	            text: new ol.style.Text({
-// 	                text: currentDistance.toFixed(2) + ' meters',
-// 	                font: '10px sans-serif',
-// 	                offsetY: -12,
-// 	                fill: new ol.style.Fill({ color: 'black' })
-// 	            })
-// 	        }));
-// 	        lineLayer.getSource().addFeature(textFeature);
+	    while (currentDistance < lineLength) {
+	        var pointOnLine = lineString.getCoordinateAt(currentDistance / lineLength);
+	        var textFeature = new ol.Feature({
+	            geometry: new ol.geom.Point(pointOnLine)
+	        });
+	        textFeature.setStyle(new ol.style.Style({
+	            text: new ol.style.Text({
+	                text: currentDistance.toFixed(2) + ' meters',
+	                font: '10px sans-serif',
+	                offsetY: -12,
+	                fill: new ol.style.Fill({ color: 'black' })
+	            })
+	        }));
+	        lineLayer.getSource().addFeature(textFeature);
 	
-// 	        currentDistance += intervalDistance;
-// 	    }
-// 	}
+	        currentDistance += intervalDistance;
+	    }
+	}
 
 
       
@@ -468,7 +468,7 @@
     		    }else if(result.length == 0){
     		    	alert("교통정보(ITS) 조회된 데이터가 없습니다");
     				$("#itsLayer").removeClass('on');
-    				_map.removeLayer(istVectorLayer);
+    				_map.removeLayer(_rn_Its_Layer);
     		    	return;
     		    } else {
     		    	var geoJSONFormat = new ol.format.GeoJSON();
@@ -679,7 +679,6 @@
       	    }
       	  },
       	  complete: function() {
-      		rn_its_cctv_api2();
       	  }
       	});
       }
@@ -720,14 +719,13 @@
       
 	//its cctv api(작업중)
 	_map.on('singleclick', function (event) {
-		
-		//변화정보 레이어 feature 체크
+		//레이어 feature 체크
 		const feature = _map.forEachFeatureAtPixel(event.pixel, function(feature) {
-		    return feature;
+			return feature;
 		}, {
-		    layerFilter: function(layer) {
-		        return layer === _rn_Its_cctv_Layer || layer === _rn_Its_cctv_Layer2;
-		    },
+			layerFilter: function(layer) {
+				return layer === _rn_Its_cctv_Layer;
+			},
 		});
 		
 		if (feature) {
